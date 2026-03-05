@@ -3,19 +3,8 @@
 import { motion } from 'framer-motion'
 import { Star, Quote } from 'lucide-react'
 
-interface Review {
-  id: string
-  name: string
-  role: string
-  text: string
-  rating?: number
-  initials?: string
-  color?: string
-}
-
-interface ReviewsProps {
-  reviews?: Review[]
-}
+interface Review { id: string; name: string; role: string; text: string; rating?: number; initials?: string; color?: string }
+interface ReviewsProps { reviews?: Review[] }
 
 const DEFAULT_REVIEWS: Review[] = [
   { id: '1', name: 'Алексей М.', role: 'Реселлер Apple, Москва', text: 'Бот для мониторинга цен Apple — это просто находка. Раньше тратил полдня на обновление объявлений, теперь всё автоматически. Окупился за первый месяц.', rating: 5, initials: 'АМ', color: '#3B82F6' },
@@ -28,6 +17,18 @@ const DEFAULT_REVIEWS: Review[] = [
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
+const gridVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
+
+function makeCardVariants(xDir: number) {
+  return {
+    hidden: { opacity: 0, x: xDir, scale: 0.88 },
+    show: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.55, ease: EASE } },
+  }
+}
+
 export default function Reviews({ reviews = [] }: ReviewsProps) {
   const displayReviews = reviews.length > 0 ? reviews : DEFAULT_REVIEWS
 
@@ -37,7 +38,7 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
           className="mb-14"
         >
@@ -49,41 +50,41 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {displayReviews.map((review, i) => {
-            const xDir = i % 2 === 0 ? -60 : 60
-            return (
-              <motion.div
-                key={review.id}
-                initial={{ opacity: 0, x: xDir, scale: 0.88, borderRadius: '4px' }}
-                whileInView={{ opacity: 1, x: 0, scale: 1, borderRadius: '16px' }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
-                className="glass-card p-6 flex flex-col"
-              >
-                <Quote size={20} className="mb-4" style={{ color: 'rgba(59,130,246,0.3)' }} />
-                <div className="flex gap-1 mb-3">
-                  {Array.from({ length: review.rating || 5 }).map((_, j) => (
-                    <Star key={j} size={14} fill="#F59E0B" style={{ color: '#F59E0B' }} />
-                  ))}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          variants={gridVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
+        >
+          {displayReviews.map((review, i) => (
+            <motion.div
+              key={review.id}
+              variants={makeCardVariants(i % 2 === 0 ? -50 : 50)}
+              className="glass-card p-6 flex flex-col"
+            >
+              <Quote size={20} className="mb-4" style={{ color: 'rgba(59,130,246,0.3)' }} />
+              <div className="flex gap-1 mb-3">
+                {Array.from({ length: review.rating || 5 }).map((_, j) => (
+                  <Star key={j} size={14} fill="#F59E0B" style={{ color: '#F59E0B' }} />
+                ))}
+              </div>
+              <p className="text-sm leading-relaxed flex-1 mb-5" style={{ color: 'rgba(230,237,243,0.7)' }}>"{review.text}"</p>
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                  style={{ background: `${review.color || '#22C55E'}20`, border: `1px solid ${review.color || '#22C55E'}30`, color: review.color || '#22C55E' }}
+                >
+                  {review.initials || review.name.slice(0, 2).toUpperCase()}
                 </div>
-                <p className="text-sm leading-relaxed flex-1 mb-5" style={{ color: 'rgba(230,237,243,0.7)' }}>"{review.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-                    style={{ background: `${review.color || '#22C55E'}20`, border: `1px solid ${review.color || '#22C55E'}30`, color: review.color || '#22C55E' }}
-                  >
-                    {review.initials || review.name.slice(0, 2).toUpperCase()}
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold" style={{ color: '#E6EDF3' }}>{review.name}</div>
-                    <div className="text-xs" style={{ color: 'rgba(230,237,243,0.4)' }}>{review.role}</div>
-                  </div>
+                <div>
+                  <div className="text-sm font-semibold" style={{ color: '#E6EDF3' }}>{review.name}</div>
+                  <div className="text-xs" style={{ color: 'rgba(230,237,243,0.4)' }}>{review.role}</div>
                 </div>
-              </motion.div>
-            )
-          })}
-        </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   )

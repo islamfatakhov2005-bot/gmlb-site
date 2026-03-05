@@ -30,6 +30,18 @@ const DEFAULT_ADVANTAGES: Advantage[] = [
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
+const gridVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
+
+function makeCardVariants(xDir: number) {
+  return {
+    hidden: { opacity: 0, x: xDir, scale: 0.88 },
+    show: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.55, ease: EASE } },
+  }
+}
+
 export default function Advantages({ advantages = [] }: AdvantagesProps) {
   const displayAdvantages = advantages.length > 0 ? advantages : DEFAULT_ADVANTAGES
 
@@ -39,7 +51,7 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
           className="mb-14"
         >
@@ -54,19 +66,21 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          variants={gridVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
+        >
           {displayAdvantages.map((adv: any, i: number) => {
             const color = adv.color || '#22C55E'
             const iconName = adv.iconName || (adv as any).icon || 'Zap'
             const IconComp = ICON_MAP[iconName] || Zap
-            const xDir = i % 2 === 0 ? -60 : 60
             return (
               <motion.div
                 key={adv.id || i}
-                initial={{ opacity: 0, x: xDir, scale: 0.88, borderRadius: '4px' }}
-                whileInView={{ opacity: 1, x: 0, scale: 1, borderRadius: '16px' }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
+                variants={makeCardVariants(i % 2 === 0 ? -50 : 50)}
                 className="glass-card p-6"
               >
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
@@ -77,7 +91,7 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
               </motion.div>
             )
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

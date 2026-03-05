@@ -9,39 +9,36 @@ const ICON_MAP: Record<string, React.ElementType> = {
 }
 
 interface Product {
-  id: string
-  title: string
-  slug: string
-  shortDescription: string
-  tags?: Array<{ tag: string }>
-  priceFrom?: number
+  id: string; title: string; slug: string; shortDescription: string
+  tags?: Array<{ tag: string }>; priceFrom?: number
   coverImage?: { url?: string; alt?: string } | null
-  featured?: boolean
-  iconName?: string
-  color?: string
+  featured?: boolean; iconName?: string; color?: string
 }
 
-interface ProductsGridProps {
-  products?: Product[]
-  showHeader?: boolean
-}
+interface ProductsGridProps { products?: Product[]; showHeader?: boolean }
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
+
+const gridVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
+
+function makeCardVariants(xDir: number) {
+  return {
+    hidden: { opacity: 0, x: xDir, scale: 0.88 },
+    show: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.55, ease: EASE } },
+  }
+}
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const IconComp = ICON_MAP[product.iconName || 'Bot'] || Bot
   const color = product.color || '#22C55E'
   const tags = product.tags?.map(t => t.tag) || []
   const imageUrl = product.coverImage?.url
-  const xDir = index % 2 === 0 ? -60 : 60
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: xDir, scale: 0.88, borderRadius: '4px' }}
-      whileInView={{ opacity: 1, x: 0, scale: 1, borderRadius: '16px' }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.6, delay: index * 0.08, ease: EASE }}
-    >
+    <motion.div variants={makeCardVariants(index % 2 === 0 ? -50 : 50)}>
       <Link href={`/products/${product.slug}`}>
         <div className="glass-card h-full flex flex-col cursor-pointer overflow-hidden" style={{ minHeight: '340px' }}>
           <div
@@ -67,7 +64,6 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
               </div>
             )}
           </div>
-
           <div className="flex flex-col flex-1 p-5">
             <div className="flex flex-wrap gap-1.5 mb-3">
               {tags.map((tag) => (
@@ -99,13 +95,13 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
 export default function ProductsGrid({ products = [], showHeader = true }: ProductsGridProps) {
   return (
-    <section id="products" className="grid-bg py-16 md:py-24">
+    <section id="products" className="grid-bg py-16 md:py-24 overflow-hidden">
       <div className="container mx-auto">
         {showHeader && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5 }}
             className="mb-10 md:mb-14"
           >
@@ -126,11 +122,17 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
             <p className="text-lg" style={{ color: 'rgba(230,237,243,0.5)' }}>Продукты скоро появятся</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
+            variants={gridVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.1 }}
+          >
             {products.map((product, i) => (
               <ProductCard key={product.id} product={product} index={i} />
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

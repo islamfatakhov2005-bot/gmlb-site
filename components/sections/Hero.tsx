@@ -10,7 +10,7 @@ const CYCLING_WORDS = [
   'Telegram-ботов',
   'парсеров данных',
   'RAG-решений',
-  'чат-ботов для маркетплейсов',
+  'маркетплейс-ботов',
   'AI-агентов',
   'нейросетей',
   'умной автоматизации',
@@ -19,7 +19,7 @@ const CYCLING_WORDS = [
 function MatrixWord() {
   const [displayText, setDisplayText] = useState('')
   const [wordIndex, setWordIndex] = useState(0)
-  const [phase, setPhase] = useState<'scramble' | 'reveal' | 'hold' | 'erase'>('reveal')
+  const [phase, setPhase] = useState<'reveal' | 'hold' | 'erase'>('reveal')
 
   useEffect(() => {
     const targetWord = CYCLING_WORDS[wordIndex]
@@ -39,39 +39,40 @@ function MatrixWord() {
           })
           .join('')
         setDisplayText(scrambled)
-        if (frame % 3 === 0) revealed++
+        if (frame % 2 === 0) revealed++
         if (revealed > targetWord.length) {
           clearInterval(interval)
           setDisplayText(targetWord)
           setPhase('hold')
         }
-      }, 40)
+      }, 25)
     } else if (phase === 'hold') {
       interval = setInterval(() => {
         clearInterval(interval)
         setPhase('erase')
-      }, 2200)
+      }, 2000)
     } else if (phase === 'erase') {
       let erased = 0
       interval = setInterval(() => {
         frame++
+        const len = targetWord.length
         const scrambled = targetWord
           .split('')
           .map((char, i) => {
-            if (char === ' ') return ' '
-            if (i < erased) return '\u00A0'
+            if (char === ' ') return '\u00A0'
+            if (i >= len - erased) return '\u00A0'
             return MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]
           })
           .join('')
         setDisplayText(scrambled)
         if (frame % 2 === 0) erased++
-        if (erased > targetWord.length) {
+        if (erased > len) {
           clearInterval(interval)
           setDisplayText('')
           setWordIndex((prev) => (prev + 1) % CYCLING_WORDS.length)
           setPhase('reveal')
         }
-      }, 35)
+      }, 28)
     }
 
     return () => clearInterval(interval)
@@ -80,17 +81,17 @@ function MatrixWord() {
   return (
     <span
       className="font-mono"
-      style={{ color: '#22C55E', textShadow: '0 0 20px rgba(34,197,94,0.6)', minWidth: '1ch', display: 'inline-block' }}
+      style={{ color: '#22C55E', textShadow: '0 0 20px rgba(34,197,94,0.6)', display: 'inline-block', minWidth: '1ch' }}
     >
       {displayText}
       <span
         style={{
           display: 'inline-block',
           width: '2px',
-          height: '1em',
+          height: '0.85em',
           background: '#22C55E',
-          marginLeft: '2px',
-          verticalAlign: 'text-bottom',
+          marginLeft: '3px',
+          verticalAlign: 'middle',
           animation: 'blink 1s step-end infinite',
         }}
       />
@@ -142,17 +143,23 @@ export default function Hero({
           </span>
         </motion.div>
 
-        <motion.h1
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 md:mb-6"
-          style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}
+          className="w-full md:max-w-[55%] mb-4 md:mb-6"
         >
-          Автоматизация бизнес-процессов с помощью
-          <br />
-          <MatrixWord />
-        </motion.h1>
+          <h1
+            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
+            style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}
+          >
+            Автоматизация бизнеса
+            <br />
+            <span style={{ display: 'block', minHeight: '1.15em' }}>
+              <MatrixWord />
+            </span>
+          </h1>
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
