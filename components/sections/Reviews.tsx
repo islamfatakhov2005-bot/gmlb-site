@@ -17,16 +17,14 @@ const DEFAULT_REVIEWS: Review[] = [
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.93 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: EASE } },
+}
+
 const gridVariants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1 } },
-}
-
-function makeCardVariants(xDir: number) {
-  return {
-    hidden: { opacity: 0, x: xDir, scale: 0.88 },
-    show: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.55, ease: EASE } },
-  }
 }
 
 export default function Reviews({ reviews = [] }: ReviewsProps) {
@@ -36,10 +34,10 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
     <section id="reviews" className="grid-bg py-24 relative overflow-hidden">
       <div className="container mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7 }}
           className="mb-14"
         >
           <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: '#FCD34D' }}>
@@ -55,14 +53,10 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
           variants={gridVariants}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.05 }}
         >
-          {displayReviews.map((review, i) => (
-            <motion.div
-              key={review.id}
-              variants={makeCardVariants(i % 2 === 0 ? -50 : 50)}
-              className="glass-card p-6 flex flex-col"
-            >
+          {displayReviews.map((review) => (
+            <motion.div key={review.id} variants={cardVariants} className="glass-card p-6 flex flex-col">
               <Quote size={20} className="mb-4" style={{ color: 'rgba(59,130,246,0.3)' }} />
               <div className="flex gap-1 mb-3">
                 {Array.from({ length: review.rating || 5 }).map((_, j) => (

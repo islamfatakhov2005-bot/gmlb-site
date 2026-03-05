@@ -14,31 +14,28 @@ interface Product {
   coverImage?: { url?: string; alt?: string } | null
   featured?: boolean; iconName?: string; color?: string
 }
-
 interface ProductsGridProps { products?: Product[]; showHeader?: boolean }
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.93 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: EASE } },
+}
+
 const gridVariants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.12 } },
 }
 
-function makeCardVariants(xDir: number) {
-  return {
-    hidden: { opacity: 0, x: xDir, scale: 0.88 },
-    show: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.55, ease: EASE } },
-  }
-}
-
-function ProductCard({ product, index }: { product: Product; index: number }) {
+function ProductCard({ product }: { product: Product }) {
   const IconComp = ICON_MAP[product.iconName || 'Bot'] || Bot
   const color = product.color || '#22C55E'
   const tags = product.tags?.map(t => t.tag) || []
   const imageUrl = product.coverImage?.url
 
   return (
-    <motion.div variants={makeCardVariants(index % 2 === 0 ? -50 : 50)}>
+    <motion.div variants={cardVariants}>
       <Link href={`/products/${product.slug}`}>
         <div className="glass-card h-full flex flex-col cursor-pointer overflow-hidden" style={{ minHeight: '340px' }}>
           <div
@@ -99,10 +96,10 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
       <div className="container mx-auto">
         {showHeader && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7 }}
             className="mb-10 md:mb-14"
           >
             <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
@@ -127,10 +124,10 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
             variants={gridVariants}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: true, amount: 0.05 }}
           >
-            {products.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </motion.div>
         )}

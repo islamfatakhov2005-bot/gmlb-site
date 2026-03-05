@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-const MATRIX_CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&'
+const MATRIX_CHARS = '01@#$%&*!<>?/|{}[]=+~01100101011011000110'
 
 const CYCLING_WORDS = [
   'Telegram-ботов',
@@ -24,11 +24,11 @@ function MatrixWord() {
   useEffect(() => {
     const targetWord = CYCLING_WORDS[wordIndex]
     let frame = 0
-    let interval: ReturnType<typeof setInterval>
+    let timerId: ReturnType<typeof setInterval> | ReturnType<typeof setTimeout>
 
     if (phase === 'reveal') {
       let revealed = 0
-      interval = setInterval(() => {
+      timerId = setInterval(() => {
         frame++
         const scrambled = targetWord
           .split('')
@@ -41,54 +41,49 @@ function MatrixWord() {
         setDisplayText(scrambled)
         if (frame % 2 === 0) revealed++
         if (revealed > targetWord.length) {
-          clearInterval(interval)
+          clearInterval(timerId as ReturnType<typeof setInterval>)
           setDisplayText(targetWord)
           setPhase('hold')
         }
-      }, 25)
+      }, 33)
     } else if (phase === 'hold') {
-      interval = setInterval(() => {
-        clearInterval(interval)
-        setPhase('erase')
-      }, 2000)
+      timerId = setTimeout(() => setPhase('erase'), 2200)
     } else if (phase === 'erase') {
-      let erased = 0
-      interval = setInterval(() => {
-        frame++
-        const len = targetWord.length
-        const scrambled = targetWord
-          .split('')
-          .map((char, i) => {
-            if (char === ' ') return '\u00A0'
-            if (i >= len - erased) return '\u00A0'
-            return MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]
-          })
-          .join('')
-        setDisplayText(scrambled)
-        if (frame % 2 === 0) erased++
-        if (erased > len) {
-          clearInterval(interval)
+      let remaining = targetWord.length
+      timerId = setInterval(() => {
+        remaining--
+        setDisplayText(targetWord.slice(0, Math.max(0, remaining)))
+        if (remaining <= 0) {
+          clearInterval(timerId as ReturnType<typeof setInterval>)
           setDisplayText('')
           setWordIndex((prev) => (prev + 1) % CYCLING_WORDS.length)
           setPhase('reveal')
         }
-      }, 28)
+      }, 50)
     }
 
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(timerId as ReturnType<typeof setInterval>)
+      clearTimeout(timerId as ReturnType<typeof setTimeout>)
+    }
   }, [phase, wordIndex])
 
   return (
     <span
       className="font-mono"
-      style={{ color: '#22C55E', textShadow: '0 0 20px rgba(34,197,94,0.6)', display: 'inline-block', minWidth: '1ch' }}
+      style={{
+        color: '#22C55E',
+        textShadow: '0 0 20px rgba(34,197,94,0.5)',
+        display: 'inline-block',
+        whiteSpace: 'nowrap',
+      }}
     >
       {displayText}
       <span
         style={{
           display: 'inline-block',
           width: '2px',
-          height: '0.85em',
+          height: '0.8em',
           background: '#22C55E',
           marginLeft: '3px',
           verticalAlign: 'middle',
@@ -137,17 +132,22 @@ export default function Hero({
       <div className="absolute bottom-1/4 left-1/3 w-56 h-56 rounded-full animate-blob animation-delay-4000" style={{ background: 'rgba(52,211,153,0.08)', filter: 'blur(50px)', zIndex: 2 }} />
 
       <div className="relative z-10 container mx-auto text-left px-4 pt-24 pb-16">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="inline-flex items-center gap-2 mb-6 md:mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="inline-flex items-center gap-2 mb-6 md:mb-8"
+        >
           <span className="px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide" style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)', color: '#22C55E' }}>
             {badgeText}
           </span>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="w-full md:max-w-[55%] mb-4 md:mb-6"
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="w-full mb-4 md:mb-6"
         >
           <h1
             className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
@@ -155,26 +155,26 @@ export default function Hero({
           >
             Автоматизация бизнеса
             <br />
-            <span style={{ display: 'block', minHeight: '1.15em' }}>
+            <span style={{ display: 'block', minHeight: '1.2em', overflow: 'hidden' }}>
               <MatrixWord />
             </span>
           </h1>
         </motion.div>
 
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-sm md:text-base lg:text-lg max-w-2xl mb-6 md:mb-10 leading-relaxed"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.25 }}
+          className="text-sm md:text-base lg:text-lg max-w-xl mb-6 md:mb-10 leading-relaxed"
           style={{ color: 'rgba(230,237,243,0.6)' }}
         >
           {subheading}
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-10 md:mb-16 w-full"
         >
           <button onClick={scrollToContact} className="btn-gradient flex items-center gap-2 text-sm md:text-base w-full sm:w-auto" style={{ padding: '12px 24px' }}>
@@ -187,9 +187,9 @@ export default function Hero({
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
           className="flex flex-col sm:flex-row items-start gap-3 md:gap-6 w-full"
         >
           {stats.map((stat, i) => (
@@ -210,7 +210,7 @@ export default function Hero({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
+        transition={{ delay: 1.4 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 cursor-pointer"
         onClick={scrollToProducts}
       >

@@ -51,7 +51,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   }
 
   return (
-    <html lang="ru" className={`${inter.variable} ${plusJakarta.variable}`}>
+    <html lang="ru" className={`${inter.variable} ${plusJakarta.variable}`} style={{ overflowX: 'hidden' }}>
       <body style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif', overflowX: 'hidden' }}>
         <Toaster theme="dark" position="bottom-right" />
         <Header />

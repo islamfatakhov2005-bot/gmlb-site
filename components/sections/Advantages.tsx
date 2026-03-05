@@ -7,17 +7,8 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Zap, Shield, HeadphonesIcon, Code2, TrendingUp, Clock, Brain, Bot, Star, Heart,
 }
 
-interface Advantage {
-  id: string
-  title: string
-  description: string
-  iconName?: string
-  color?: string
-}
-
-interface AdvantagesProps {
-  advantages?: Advantage[]
-}
+interface Advantage { id: string; title: string; description: string; iconName?: string; color?: string }
+interface AdvantagesProps { advantages?: Advantage[] }
 
 const DEFAULT_ADVANTAGES: Advantage[] = [
   { id: '1', icon: 'Zap', title: 'Быстрый запуск', description: 'Готовые решения запускаются за 3–7 дней. Никаких месяцев разработки с нуля.', color: '#F59E0B' },
@@ -30,16 +21,14 @@ const DEFAULT_ADVANTAGES: Advantage[] = [
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
-const gridVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.93 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: EASE } },
 }
 
-function makeCardVariants(xDir: number) {
-  return {
-    hidden: { opacity: 0, x: xDir, scale: 0.88 },
-    show: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.55, ease: EASE } },
-  }
+const gridVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.13 } },
 }
 
 export default function Advantages({ advantages = [] }: AdvantagesProps) {
@@ -49,10 +38,10 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
     <section id="advantages" className="grid-bg py-24 relative overflow-hidden">
       <div className="container mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7 }}
           className="mb-14"
         >
           <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
@@ -71,18 +60,14 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
           variants={gridVariants}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.05 }}
         >
           {displayAdvantages.map((adv: any, i: number) => {
             const color = adv.color || '#22C55E'
             const iconName = adv.iconName || (adv as any).icon || 'Zap'
             const IconComp = ICON_MAP[iconName] || Zap
             return (
-              <motion.div
-                key={adv.id || i}
-                variants={makeCardVariants(i % 2 === 0 ? -50 : 50)}
-                className="glass-card p-6"
-              >
+              <motion.div key={adv.id || i} variants={cardVariants} className="glass-card p-6">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
                   <IconComp size={20} style={{ color }} />
                 </div>
