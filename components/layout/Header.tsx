@@ -31,12 +31,12 @@ export default function Header() {
       <div
         style={{
           width: '100%',
-          maxWidth: '900px',
+          maxWidth: '1200px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '10px 16px',
-          borderRadius: '9999px',
+          padding: '14px 28px',
+          borderRadius: '20px',
           background: scrolled ? 'rgba(8,20,14,0.96)' : 'rgba(8,20,14,0.75)',
           backdropFilter: 'blur(22px)',
           WebkitBackdropFilter: 'blur(22px)',
@@ -136,9 +136,9 @@ export default function Header() {
             transition={{ duration: 0.18 }}
             style={{
               width: '100%',
-              maxWidth: '900px',
+              maxWidth: '1200px',
               marginTop: '8px',
-              borderRadius: '20px',
+              borderRadius: '16px',
               background: 'rgba(8,20,14,0.97)',
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
