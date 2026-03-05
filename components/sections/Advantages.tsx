@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Zap, Shield, HeadphonesIcon, Code2, TrendingUp, Clock, Brain, Bot, Star, Heart } from 'lucide-react'
+import MatrixText from '@/components/ui/MatrixText'
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Zap, Shield, HeadphonesIcon, Code2, TrendingUp, Clock, Brain, Bot, Star, Heart,
@@ -48,7 +49,7 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
             Почему GMLB
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
-            Наши преимущества
+            <MatrixText text="Наши преимущества" />
           </h2>
           <p className="text-base max-w-xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
             Мы не просто пишем код — мы решаем бизнес-задачи

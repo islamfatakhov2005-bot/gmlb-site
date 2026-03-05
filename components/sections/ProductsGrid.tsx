@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import MatrixText from '@/components/ui/MatrixText'
 import { ArrowRight, Bot, Search, Brain, MessageSquare, RefreshCw, BarChart2, Layers, ShoppingCart, TrendingUp, Zap } from 'lucide-react'
 
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -106,7 +107,7 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
               Каталог продуктов
             </span>
             <h2 className="text-2xl md:text-3xl lg:text-5xl font-extrabold mb-3 md:mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
-              Решения для вашего бизнеса
+              <MatrixText text="Решения для вашего бизнеса" />
             </h2>
             <p className="text-sm md:text-base max-w-xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
               Готовые инструменты автоматизации, которые экономят время и увеличивают прибыль

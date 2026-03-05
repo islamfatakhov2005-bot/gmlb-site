@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Star, Quote } from 'lucide-react'
+import MatrixText from '@/components/ui/MatrixText'
 
 interface Review { id: string; name: string; role: string; text: string; rating?: number; initials?: string; color?: string }
 interface ReviewsProps { reviews?: Review[] }
@@ -44,7 +45,7 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
             Отзывы клиентов
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
-            Что говорят наши клиенты
+            <MatrixText text="Что говорят наши клиенты" />
           </h2>
         </motion.div>
 

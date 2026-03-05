@@ -1,8 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const MATRIX_CHARS = '01@#$%&*!<>?/|{}[]=+~01100101011011000110'
 
@@ -23,29 +23,28 @@ function MatrixWord() {
 
   useEffect(() => {
     const targetWord = CYCLING_WORDS[wordIndex]
-    let frame = 0
     let timerId: ReturnType<typeof setInterval> | ReturnType<typeof setTimeout>
 
     if (phase === 'reveal') {
       let revealed = 0
       timerId = setInterval(() => {
-        frame++
-        const scrambled = targetWord
+        // typewriter: correct chars typed so far + scramble cursor + nothing after
+        const display = targetWord
           .split('')
           .map((char, i) => {
-            if (char === ' ') return ' '
-            if (i < revealed) return char
-            return MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]
+            if (i < revealed) return char === ' ' ? ' ' : char
+            if (i === revealed) return MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]
+            return ''
           })
           .join('')
-        setDisplayText(scrambled)
-        if (frame % 2 === 0) revealed++
+        setDisplayText(display)
+        revealed++
         if (revealed > targetWord.length) {
           clearInterval(timerId as ReturnType<typeof setInterval>)
           setDisplayText(targetWord)
           setPhase('hold')
         }
-      }, 33)
+      }, 75)
     } else if (phase === 'hold') {
       timerId = setTimeout(() => setPhase('erase'), 2200)
     } else if (phase === 'erase') {
@@ -115,6 +114,16 @@ export default function Hero({
   stat3Value = '24/7',
   stat3Label = 'Автоматизация',
 }: HeroProps) {
+  const heroRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  })
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const blurAmount = useTransform(scrollYProgress, [0, 0.8], [0, 14])
+  const filterStyle = useMotionTemplate`blur(${blurAmount}px)`
+
   const stats = [
     { value: stat1Value, label: stat1Label },
     { value: stat2Value, label: stat2Label },
@@ -125,7 +134,11 @@ export default function Hero({
   const scrollToContact = () => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <section className="grid-bg relative min-h-screen flex flex-col items-start justify-center overflow-hidden">
+    <motion.section
+      ref={heroRef}
+      className="grid-bg relative min-h-screen flex flex-col items-start justify-center overflow-hidden"
+      style={{ scale: heroScale, opacity: heroOpacity, filter: filterStyle }}
+    >
       <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
       <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full animate-blob" style={{ background: 'rgba(34,197,94,0.12)', filter: 'blur(60px)', zIndex: 2 }} />
       <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full animate-blob animation-delay-2000" style={{ background: 'rgba(16,185,129,0.1)', filter: 'blur(60px)', zIndex: 2 }} />
@@ -177,11 +190,11 @@ export default function Hero({
           transition={{ duration: 0.6, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-10 md:mb-16 w-full"
         >
-          <button onClick={scrollToContact} className="btn-gradient flex items-center gap-2 text-sm md:text-base w-full sm:w-auto" style={{ padding: '12px 24px' }}>
+          <button onClick={scrollToContact} className="btn-gradient flex items-center gap-2 text-sm md:text-base w-full sm:w-auto">
             Получить консультацию
             <ArrowRight size={18} />
           </button>
-          <button onClick={scrollToProducts} className="btn-outline-green flex items-center gap-2 text-sm md:text-base w-full sm:w-auto" style={{ padding: '12px 24px' }}>
+          <button onClick={scrollToProducts} className="btn-outline-green flex items-center gap-2 text-sm md:text-base w-full sm:w-auto">
             Смотреть продукты
           </button>
         </motion.div>
@@ -195,7 +208,7 @@ export default function Hero({
           {stats.map((stat, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-lg md:rounded-xl w-full sm:w-auto"
+              className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl w-full sm:w-auto"
               style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(10px)' }}
             >
               <div className="text-left">
@@ -219,6 +232,6 @@ export default function Hero({
           <ChevronDown size={18} style={{ color: 'rgba(230,237,243,0.3)' }} />
         </motion.div>
       </motion.div>
-    </section>
+    </motion.section>
   )
 }

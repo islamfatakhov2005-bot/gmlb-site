@@ -78,9 +78,6 @@ export default async function HomePage() {
     <>
       <Hero
         badgeText={s?.heroBadge}
-        heading={s?.heroHeading}
-        headingHighlight={s?.heroHeadingHighlight}
-        headingEnd={s?.heroHeadingEnd}
         subheading={s?.heroSubheading}
         stat1Value={s?.stat1Value}
         stat1Label={s?.stat1Label}
@@ -89,25 +86,27 @@ export default async function HomePage() {
         stat3Value={s?.stat3Value}
         stat3Label={s?.stat3Label}
       />
-      <div className="section-divider" />
-      <ProductsGrid products={mappedProducts} />
-      <div className="section-divider" />
-      <About
-        heading={s?.aboutHeading}
-        description={s?.aboutDescription}
-        points={s?.aboutPoints?.length ? s.aboutPoints : undefined}
-        imageUrl={s?.aboutImage?.url}
-        statValue={s?.aboutStatValue}
-        statLabel={s?.aboutStatLabel}
-      />
-      <div className="section-divider" />
-      <Cases cases={mappedCases} />
-      <div className="section-divider" />
-      <Advantages advantages={mappedAdvantages} />
-      <div className="section-divider" />
-      <Reviews reviews={mappedReviews} />
-      <div className="section-divider" />
-      <Contact telegram={s?.telegram} />
+      {/* Section wrapper slides over Hero with rounded top corners */}
+      <div style={{ position: 'relative', zIndex: 2, borderRadius: '40px 40px 0 0', overflow: 'hidden', marginTop: '-60px', background: '#111318' }}>
+        <ProductsGrid products={mappedProducts} />
+        <div className="section-divider" />
+        <About
+          heading={s?.aboutHeading}
+          description={s?.aboutDescription}
+          points={s?.aboutPoints?.length ? s.aboutPoints : undefined}
+          imageUrl={s?.aboutImage?.url}
+          statValue={s?.aboutStatValue}
+          statLabel={s?.aboutStatLabel}
+        />
+        <div className="section-divider" />
+        <Cases cases={mappedCases} />
+        <div className="section-divider" />
+        <Advantages advantages={mappedAdvantages} />
+        <div className="section-divider" />
+        <Reviews reviews={mappedReviews} />
+        <div className="section-divider" />
+        <Contact telegram={s?.telegram} />
+      </div>
     </>
   )
 }

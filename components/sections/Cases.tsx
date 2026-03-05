@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { TrendingUp, Clock, DollarSign, Users } from 'lucide-react'
+import MatrixText from '@/components/ui/MatrixText'
 
 const ICON_MAP: Record<string, React.ElementType> = { TrendingUp, Clock, DollarSign, Users }
 
@@ -74,7 +75,7 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
             Кейсы клиентов
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
-            Реальные результаты
+            <MatrixText text="Реальные результаты" />
           </h2>
           <p className="text-base max-w-xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
             Как наши продукты помогают бизнесу расти и экономить время
@@ -88,7 +89,7 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
           whileInView="show"
           viewport={{ once: true, amount: 0.05 }}
         >
-          {displayCases.map((c, i) => {
+          {displayCases.map((c) => {
             const color = c.color || '#22C55E'
             return (
               <motion.div key={c.id} variants={cardVariants} className="glass-card p-6 flex flex-col">

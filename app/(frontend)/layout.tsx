@@ -1,20 +1,15 @@
 import type { Metadata } from 'next'
-import { Inter, Plus_Jakarta_Sans } from 'next/font/google'
+import { Golos_Text } from 'next/font/google'
 import { Toaster } from 'sonner'
 import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 
-const inter = Inter({
+const golosText = Golos_Text({
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
-  variable: '--font-inter',
-})
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-plus-jakarta',
+  variable: '--font-golos',
+  weight: ['400', '500', '600', '700', '800', '900'],
 })
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
@@ -51,8 +46,8 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   }
 
   return (
-    <html lang="ru" className={`${inter.variable} ${plusJakarta.variable}`} style={{ overflowX: 'hidden' }}>
-      <body style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif', overflowX: 'hidden' }}>
+    <html lang="ru" className={golosText.variable} style={{ overflowX: 'clip' }}>
+      <body style={{ fontFamily: 'var(--font-golos), system-ui, sans-serif', overflowX: 'clip' }}>
         <Toaster theme="dark" position="bottom-right" />
         <Header />
         <main className="min-h-screen">{children}</main>
