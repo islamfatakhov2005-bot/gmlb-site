@@ -62,7 +62,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   }
 
   return (
-    <div className="min-h-screen pt-16" style={{ background: '#081410' }}>
+    <div className="min-h-screen pt-16" style={{ background: '#ffffff' }}>
       <ProductDetail product={mapped} />
     </div>
   )

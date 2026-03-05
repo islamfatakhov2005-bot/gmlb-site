@@ -74,10 +74,10 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
           <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)', color: '#34D399' }}>
             Кейсы клиентов
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
             <MatrixText text="Реальные результаты" />
           </h2>
-          <p className="text-base max-w-xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
+          <p className="text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>
             Как наши продукты помогают бизнесу расти и экономить время
           </p>
         </motion.div>
@@ -98,8 +98,8 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
                     {c.clientType}
                   </span>
                 </div>
-                <h3 className="text-base font-bold mb-3 leading-snug" style={{ color: '#E6EDF3' }}>{c.title}</h3>
-                <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: 'rgba(230,237,243,0.55)' }}>{c.description}</p>
+                <h3 className="text-base font-bold mb-3 leading-snug" style={{ color: '#0F172A' }}>{c.title}</h3>
+                <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: 'rgba(15,23,42,0.55)' }}>{c.description}</p>
                 {c.metrics && c.metrics.length > 0 && (
                   <div className="grid grid-cols-3 gap-2">
                     {c.metrics.map((m, j) => {
@@ -108,7 +108,7 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
                         <div key={j} className="rounded-xl p-3 text-center" style={{ background: `${color}08`, border: `1px solid ${color}15` }}>
                           <IconComp size={14} style={{ color, margin: '0 auto 4px' }} />
                           <div className="text-sm font-bold leading-none mb-1" style={{ color }}>{m.value}</div>
-                          <div className="text-xs leading-tight" style={{ color: 'rgba(230,237,243,0.4)' }}>{m.label}</div>
+                          <div className="text-xs leading-tight" style={{ color: 'rgba(15,23,42,0.5)' }}>{m.label}</div>
                         </div>
                       )
                     })}

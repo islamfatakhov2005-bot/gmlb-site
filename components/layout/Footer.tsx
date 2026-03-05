@@ -13,7 +13,7 @@ export default function Footer({ telegram = 'gmlb_automation', email = 'info@gml
   const year = new Date().getFullYear()
 
   return (
-    <footer className="grid-bg" style={{ borderTop: '1px solid rgba(34, 197, 94, 0.1)' }}>
+    <footer className="grid-bg" style={{ background: '#081410', borderTop: '1px solid rgba(34, 197, 94, 0.15)' }}>
       <div className="container mx-auto py-14 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}

@@ -44,7 +44,7 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
           <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: '#FCD34D' }}>
             Отзывы клиентов
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
             <MatrixText text="Что говорят наши клиенты" />
           </h2>
         </motion.div>
@@ -64,7 +64,7 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
                   <Star key={j} size={14} fill="#F59E0B" style={{ color: '#F59E0B' }} />
                 ))}
               </div>
-              <p className="text-sm leading-relaxed flex-1 mb-5" style={{ color: 'rgba(230,237,243,0.7)' }}>"{review.text}"</p>
+              <p className="text-sm leading-relaxed flex-1 mb-5" style={{ color: 'rgba(15,23,42,0.7)' }}>"{review.text}"</p>
               <div className="flex items-center gap-3">
                 <div
                   className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
@@ -73,8 +73,8 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
                   {review.initials || review.name.slice(0, 2).toUpperCase()}
                 </div>
                 <div>
-                  <div className="text-sm font-semibold" style={{ color: '#E6EDF3' }}>{review.name}</div>
-                  <div className="text-xs" style={{ color: 'rgba(230,237,243,0.4)' }}>{review.role}</div>
+                  <div className="text-sm font-semibold" style={{ color: '#0F172A' }}>{review.name}</div>
+                  <div className="text-xs" style={{ color: 'rgba(15,23,42,0.45)' }}>{review.role}</div>
                 </div>
               </div>
             </motion.div>

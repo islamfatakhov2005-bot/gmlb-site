@@ -68,13 +68,13 @@ function ProductCard({ product }: { product: Product }) {
                 <span key={tag} className="tag-badge" style={{ fontSize: '11px' }}>{tag}</span>
               ))}
             </div>
-            <h3 className="text-base font-bold mb-2 leading-snug" style={{ color: '#E6EDF3' }}>{product.title}</h3>
-            <p className="text-sm leading-relaxed flex-1 mb-4" style={{ color: 'rgba(230,237,243,0.55)' }}>{product.shortDescription}</p>
+            <h3 className="text-base font-bold mb-2 leading-snug" style={{ color: '#0F172A' }}>{product.title}</h3>
+            <p className="text-sm leading-relaxed flex-1 mb-4" style={{ color: 'rgba(15,23,42,0.55)' }}>{product.shortDescription}</p>
             <div className="flex items-center justify-between mt-auto">
               <div>
                 {product.priceFrom ? (
                   <>
-                    <span className="text-xs" style={{ color: 'rgba(230,237,243,0.4)' }}>от </span>
+                    <span className="text-xs" style={{ color: 'rgba(15,23,42,0.4)' }}>от </span>
                     <span className="text-sm font-bold" style={{ color: '#22C55E' }}>{product.priceFrom.toLocaleString('ru-RU')} ₽</span>
                   </>
                 ) : null}
@@ -106,10 +106,10 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
             <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
               Каталог продуктов
             </span>
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-extrabold mb-3 md:mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
+            <h2 className="text-2xl md:text-3xl lg:text-5xl font-extrabold mb-3 md:mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
               <MatrixText text="Решения для вашего бизнеса" />
             </h2>
-            <p className="text-sm md:text-base max-w-xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
+            <p className="text-sm md:text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>
               Готовые инструменты автоматизации, которые экономят время и увеличивают прибыль
             </p>
           </motion.div>
@@ -117,7 +117,7 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
 
         {products.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-lg" style={{ color: 'rgba(230,237,243,0.5)' }}>Продукты скоро появятся</p>
+            <p className="text-lg" style={{ color: 'rgba(15,23,42,0.5)' }}>Продукты скоро появятся</p>
           </div>
         ) : (
           <motion.div

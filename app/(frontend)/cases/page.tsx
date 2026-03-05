@@ -30,13 +30,13 @@ export default async function CasesPage() {
   }))
 
   return (
-    <div className="min-h-screen pt-16" style={{ background: '#081410' }}>
+    <div className="page-light min-h-screen pt-16" style={{ background: '#ffffff' }}>
       <section className="grid-bg py-16">
-        <div className="container mx-auto">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
+        <div className="container mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
             <MatrixText text="Кейсы клиентов" />
           </h1>
-          <p className="text-base max-w-2xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
+          <p className="text-base max-w-2xl mx-auto" style={{ color: 'rgba(15,23,42,0.55)' }}>
             Реальные результаты от внедрения автоматизации
           </p>
         </div>

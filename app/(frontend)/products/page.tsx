@@ -36,7 +36,7 @@ export default async function ProductsPage() {
   }))
 
   return (
-    <div className="min-h-screen pt-16" style={{ background: '#081410' }}>
+    <div className="min-h-screen pt-16" style={{ background: '#ffffff' }}>
       <ProductsCatalog products={mappedProducts} />
     </div>
   )

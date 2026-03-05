@@ -39,15 +39,15 @@ export default function ProductsCatalog({ products }: { products: Product[] }) {
   })
 
   return (
-    <div style={{ background: '#081410' }}>
+    <div className="page-light" style={{ background: '#ffffff' }}>
       {/* Hero header */}
       <section className="grid-bg py-16">
-        <div className="container mx-auto">
+        <div className="container mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-12">
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
               <MatrixText text="Каталог продуктов" />
             </h1>
-            <p className="text-base max-w-2xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
+            <p className="text-base max-w-2xl mx-auto" style={{ color: 'rgba(15,23,42,0.55)' }}>
               Готовые решения для автоматизации вашего бизнеса
             </p>
           </motion.div>
@@ -109,7 +109,7 @@ export default function ProductsCatalog({ products }: { products: Product[] }) {
         <div className="container mx-auto">
           {filtered.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-lg" style={{ color: 'rgba(230,237,243,0.5)' }}>Продукты не найдены</p>
+              <p className="text-lg" style={{ color: 'rgba(15,23,42,0.5)' }}>Продукты не найдены</p>
             </div>
           ) : (
             <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -147,12 +147,12 @@ export default function ProductsCatalog({ products }: { products: Product[] }) {
                           <div className="flex flex-wrap gap-1.5 mb-3">
                             {tags.map((tag) => <span key={tag} className="tag-badge" style={{ fontSize: '11px' }}>{tag}</span>)}
                           </div>
-                          <h3 className="text-base font-bold mb-2 leading-snug" style={{ color: '#E6EDF3' }}>{product.title}</h3>
-                          <p className="text-sm leading-relaxed flex-1 mb-4" style={{ color: 'rgba(230,237,243,0.55)' }}>{product.shortDescription}</p>
+                          <h3 className="text-base font-bold mb-2 leading-snug" style={{ color: '#0F172A' }}>{product.title}</h3>
+                          <p className="text-sm leading-relaxed flex-1 mb-4" style={{ color: 'rgba(15,23,42,0.55)' }}>{product.shortDescription}</p>
                           <div className="flex items-center justify-between mt-auto">
                             <div>
                               {product.priceFrom ? (
-                                <><span className="text-xs" style={{ color: 'rgba(230,237,243,0.4)' }}>от </span><span className="text-sm font-bold" style={{ color: '#22C55E' }}>{product.priceFrom.toLocaleString('ru-RU')} ₽</span></>
+                                <><span className="text-xs" style={{ color: 'rgba(15,23,42,0.4)' }}>от </span><span className="text-sm font-bold" style={{ color: '#22C55E' }}>{product.priceFrom.toLocaleString('ru-RU')} ₽</span></>
                               ) : null}
                             </div>
                             <div className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: '#22C55E' }}>

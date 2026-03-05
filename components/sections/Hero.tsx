@@ -137,7 +137,7 @@ export default function Hero({
     <motion.section
       ref={heroRef}
       className="grid-bg relative min-h-screen flex flex-col items-start justify-center overflow-hidden"
-      style={{ scale: heroScale, opacity: heroOpacity, filter: filterStyle }}
+      style={{ scale: heroScale, opacity: heroOpacity, filter: filterStyle, background: '#081410' }}
     >
       <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
       <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full animate-blob" style={{ background: 'rgba(34,197,94,0.12)', filter: 'blur(60px)', zIndex: 2 }} />

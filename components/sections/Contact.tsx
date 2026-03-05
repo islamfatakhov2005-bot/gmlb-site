@@ -60,10 +60,10 @@ export default function Contact({ telegram = 'gmlb_automation' }: ContactProps) 
             <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-5" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
               Связаться с нами
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-5 leading-tight" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-5 leading-tight" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
               <MatrixText text="Готовы автоматизировать ваш бизнес?" />
             </h2>
-            <p className="text-base leading-relaxed mb-8" style={{ color: 'rgba(230,237,243,0.6)' }}>
+            <p className="text-base leading-relaxed mb-8" style={{ color: 'rgba(15,23,42,0.6)' }}>
               Оставьте заявку и мы свяжемся с вами в течение 2 часов. Обсудим ваши задачи и предложим оптимальное решение.
             </p>
 
@@ -77,7 +77,7 @@ export default function Contact({ telegram = 'gmlb_automation' }: ContactProps) 
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${item.color}15`, border: `1px solid ${item.color}25` }}>
                     <item.icon size={16} style={{ color: item.color }} />
                   </div>
-                  <span className="text-sm" style={{ color: 'rgba(230,237,243,0.7)' }}>{item.text}</span>
+                  <span className="text-sm" style={{ color: 'rgba(15,23,42,0.7)' }}>{item.text}</span>
                 </div>
               ))}
             </div>
@@ -89,45 +89,45 @@ export default function Contact({ telegram = 'gmlb_automation' }: ContactProps) 
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 40 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }}>
-            <div className="rounded-2xl p-7" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}>
+            <div className="rounded-2xl p-7" style={{ background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(34,197,94,0.15)', backdropFilter: 'blur(20px)', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
               {submitted ? (
                 <div className="text-center py-10">
                   <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)' }}>
                     <CheckCircle2 size={32} style={{ color: '#34D399' }} />
                   </div>
-                  <h3 className="text-xl font-bold mb-2" style={{ color: '#E6EDF3' }}>Заявка отправлена!</h3>
-                  <p className="text-sm" style={{ color: 'rgba(230,237,243,0.55)' }}>Мы свяжемся с вами в ближайшее время</p>
+                  <h3 className="text-xl font-bold mb-2" style={{ color: '#0F172A' }}>Заявка отправлена!</h3>
+                  <p className="text-sm" style={{ color: 'rgba(15,23,42,0.55)' }}>Мы свяжемся с вами в ближайшее время</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <h3 className="text-lg font-bold mb-5" style={{ color: '#E6EDF3' }}>Оставить заявку</h3>
+                  <h3 className="text-lg font-bold mb-5" style={{ color: '#0F172A' }}>Оставить заявку</h3>
                   <div>
-                    <label className="block text-xs font-medium mb-1.5" style={{ color: 'rgba(230,237,243,0.6)' }}>Имя *</label>
+                    <label className="block text-xs font-medium mb-1.5" style={{ color: 'rgba(15,23,42,0.6)' }}>Имя *</label>
                     <div className="relative">
-                      <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'rgba(230,237,243,0.3)' }} />
+                      <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'rgba(15,23,42,0.3)' }} />
                       <input type="text" placeholder="Ваше имя" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-dark" style={{ paddingLeft: '38px' }} />
                     </div>
                     {errors.name && <p className="text-xs mt-1" style={{ color: '#EF4444' }}>{errors.name}</p>}
                   </div>
                   <div>
-                    <label className="block text-xs font-medium mb-1.5" style={{ color: 'rgba(230,237,243,0.6)' }}>Телефон *</label>
+                    <label className="block text-xs font-medium mb-1.5" style={{ color: 'rgba(15,23,42,0.6)' }}>Телефон *</label>
                     <div className="relative">
-                      <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'rgba(230,237,243,0.3)' }} />
+                      <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'rgba(15,23,42,0.3)' }} />
                       <input type="tel" placeholder="+7 (999) 000-00-00" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input-dark" style={{ paddingLeft: '38px' }} />
                     </div>
                     {errors.phone && <p className="text-xs mt-1" style={{ color: '#EF4444' }}>{errors.phone}</p>}
                   </div>
                   <div>
-                    <label className="block text-xs font-medium mb-1.5" style={{ color: 'rgba(230,237,243,0.6)' }}>Telegram (необязательно)</label>
+                    <label className="block text-xs font-medium mb-1.5" style={{ color: 'rgba(15,23,42,0.6)' }}>Telegram (необязательно)</label>
                     <div className="relative">
-                      <Send size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'rgba(230,237,243,0.3)' }} />
+                      <Send size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'rgba(15,23,42,0.3)' }} />
                       <input type="text" placeholder="@username" value={form.telegram} onChange={(e) => setForm({ ...form, telegram: e.target.value })} className="input-dark" style={{ paddingLeft: '38px' }} />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium mb-1.5" style={{ color: 'rgba(230,237,243,0.6)' }}>Сообщение (необязательно)</label>
+                    <label className="block text-xs font-medium mb-1.5" style={{ color: 'rgba(15,23,42,0.6)' }}>Сообщение (необязательно)</label>
                     <div className="relative">
-                      <FileText size={15} className="absolute left-3 top-3.5" style={{ color: 'rgba(230,237,243,0.3)' }} />
+                      <FileText size={15} className="absolute left-3 top-3.5" style={{ color: 'rgba(15,23,42,0.3)' }} />
                       <textarea placeholder="Опишите вашу задачу..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="input-dark resize-none" rows={3} style={{ paddingLeft: '38px' }} />
                     </div>
                   </div>
@@ -139,7 +139,7 @@ export default function Contact({ telegram = 'gmlb_automation' }: ContactProps) 
                       <>Оставить заявку <Send size={16} /></>
                     )}
                   </button>
-                  <p className="text-xs text-center" style={{ color: 'rgba(230,237,243,0.3)' }}>
+                  <p className="text-xs text-center" style={{ color: 'rgba(15,23,42,0.35)' }}>
                     Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
                   </p>
                 </form>

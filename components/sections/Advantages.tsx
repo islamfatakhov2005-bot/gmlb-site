@@ -48,10 +48,10 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
           <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
             Почему GMLB
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
             <MatrixText text="Наши преимущества" />
           </h2>
-          <p className="text-base max-w-xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
+          <p className="text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>
             Мы не просто пишем код — мы решаем бизнес-задачи
           </p>
         </motion.div>
@@ -72,8 +72,8 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
                   <IconComp size={20} style={{ color }} />
                 </div>
-                <h3 className="text-base font-bold mb-2" style={{ color: '#E6EDF3' }}>{adv.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(230,237,243,0.55)' }}>{adv.description}</p>
+                <h3 className="text-base font-bold mb-2" style={{ color: '#0F172A' }}>{adv.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(15,23,42,0.55)' }}>{adv.description}</p>
               </motion.div>
             )
           })}
