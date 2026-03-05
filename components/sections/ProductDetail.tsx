@@ -64,7 +64,7 @@ export default function ProductDetail({ product }: { product: Product }) {
     setErrors({})
     setLoading(true)
     try {
-      const res = await fetch('/api/leads', {
+      const res = await fetch('/api/submit-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: form.name, phone: form.phone, telegram: form.telegram, message: form.message, source: `/products/${product.slug}` }),
