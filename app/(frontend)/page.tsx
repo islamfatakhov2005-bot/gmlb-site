@@ -86,8 +86,8 @@ export default async function HomePage() {
         stat3Value={s?.stat3Value}
         stat3Label={s?.stat3Label}
       />
-      {/* Section wrapper slides over Hero with rounded top corners */}
-      <div className="sections-wrapper" style={{ position: 'relative', zIndex: 2, borderRadius: '40px 40px 0 0', overflow: 'hidden', marginTop: '-60px', background: '#13171e', boxShadow: '0 -8px 60px rgba(34,197,94,0.12), 0 -1px 0 rgba(34,197,94,0.15)' }}>
+      {/* Section wrapper slides over Hero — appears on scroll, white rounded cap like mooon.ai */}
+      <div className="sections-wrapper" style={{ position: 'relative', zIndex: 2, borderRadius: '60px 60px 0 0', overflow: 'hidden', marginTop: '0', background: '#ffffff' }}>
         <ProductsGrid products={mappedProducts} />
         <div className="section-divider" />
         <About
