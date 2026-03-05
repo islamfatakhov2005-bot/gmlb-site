@@ -1,0 +1,5 @@
+Status: Hero section looks great with unified dark green (#081410) background and spacetime dot grid.
+The dots are visible with green glow. Wave animation is active.
+Header and Footer now use green palette.
+Need to verify other pages still work correctly.
+All blue references removed from Header, Footer, index.css.
