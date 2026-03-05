@@ -1,7 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Zap, Shield, HeadphonesIcon, Code2, TrendingUp, Clock, Brain, Bot, Star, Heart } from 'lucide-react'
 
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -29,20 +28,20 @@ const DEFAULT_ADVANTAGES: Advantage[] = [
   { id: '6', icon: 'Clock', title: 'Экономия времени', description: 'Автоматизация рутинных задач освобождает до 80% рабочего времени ваших сотрудников.', color: '#EC4899' },
 ] as any
 
+const EASE = [0.25, 0.46, 0.45, 0.94] as const
+
 export default function Advantages({ advantages = [] }: AdvantagesProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-80px' })
   const displayAdvantages = advantages.length > 0 ? advantages : DEFAULT_ADVANTAGES
 
   return (
     <section id="advantages" className="grid-bg py-24 relative overflow-hidden">
       <div className="container mx-auto">
         <motion.div
-          ref={ref}
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14"
+          className="mb-14"
         >
           <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
             Почему GMLB
@@ -50,7 +49,7 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
             Наши преимущества
           </h2>
-          <p className="text-base max-w-xl mx-auto" style={{ color: 'rgba(230,237,243,0.55)' }}>
+          <p className="text-base max-w-xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
             Мы не просто пишем код — мы решаем бизнес-задачи
           </p>
         </motion.div>
@@ -60,12 +59,14 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
             const color = adv.color || '#22C55E'
             const iconName = adv.iconName || (adv as any).icon || 'Zap'
             const IconComp = ICON_MAP[iconName] || Zap
+            const xDir = i % 2 === 0 ? -60 : 60
             return (
               <motion.div
                 key={adv.id || i}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: (i % 3) * 0.1 }}
+                initial={{ opacity: 0, x: xDir, scale: 0.88, borderRadius: '4px' }}
+                whileInView={{ opacity: 1, x: 0, scale: 1, borderRadius: '16px' }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
                 className="glass-card p-6"
               >
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>

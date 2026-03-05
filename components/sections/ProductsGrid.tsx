@@ -1,7 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Bot, Search, Brain, MessageSquare, RefreshCw, BarChart2, Layers, ShoppingCart, TrendingUp, Zap } from 'lucide-react'
 
@@ -27,20 +26,21 @@ interface ProductsGridProps {
   showHeader?: boolean
 }
 
+const EASE = [0.25, 0.46, 0.45, 0.94] as const
+
 function ProductCard({ product, index }: { product: Product; index: number }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-50px' })
   const IconComp = ICON_MAP[product.iconName || 'Bot'] || Bot
   const color = product.color || '#22C55E'
   const tags = product.tags?.map(t => t.tag) || []
   const imageUrl = product.coverImage?.url
+  const xDir = index % 2 === 0 ? -60 : 60
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
+      initial={{ opacity: 0, x: xDir, scale: 0.88, borderRadius: '4px' }}
+      whileInView={{ opacity: 1, x: 0, scale: 1, borderRadius: '16px' }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: EASE }}
     >
       <Link href={`/products/${product.slug}`}>
         <div className="glass-card h-full flex flex-col cursor-pointer overflow-hidden" style={{ minHeight: '340px' }}>
@@ -98,19 +98,16 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 }
 
 export default function ProductsGrid({ products = [], showHeader = true }: ProductsGridProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-80px' })
-
   return (
     <section id="products" className="grid-bg py-16 md:py-24">
       <div className="container mx-auto">
         {showHeader && (
           <motion.div
-            ref={ref}
             initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-10 md:mb-14"
+            className="mb-10 md:mb-14"
           >
             <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
               Каталог продуктов
@@ -118,7 +115,7 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
             <h2 className="text-2xl md:text-3xl lg:text-5xl font-extrabold mb-3 md:mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
               Решения для вашего бизнеса
             </h2>
-            <p className="text-sm md:text-base max-w-xl mx-auto px-2" style={{ color: 'rgba(230,237,243,0.55)' }}>
+            <p className="text-sm md:text-base max-w-xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
               Готовые инструменты автоматизации, которые экономят время и увеличивают прибыль
             </p>
           </motion.div>

@@ -1,7 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import { TrendingUp, Clock, DollarSign, Users } from 'lucide-react'
 
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -73,20 +72,20 @@ const DEFAULT_CASES: Case[] = [
   },
 ]
 
+const EASE = [0.25, 0.46, 0.45, 0.94] as const
+
 export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-80px' })
   const displayCases = cases.length > 0 ? cases : DEFAULT_CASES
 
   return (
     <section id="cases" className="grid-bg py-24 relative overflow-hidden">
       <div className="container mx-auto">
         <motion.div
-          ref={ref}
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14"
+          className="mb-14"
         >
           <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)', color: '#34D399' }}>
             Кейсы клиентов
@@ -94,7 +93,7 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
             Реальные результаты
           </h2>
-          <p className="text-base max-w-xl mx-auto" style={{ color: 'rgba(230,237,243,0.55)' }}>
+          <p className="text-base max-w-xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
             Как наши продукты помогают бизнесу расти и экономить время
           </p>
         </motion.div>
@@ -102,12 +101,14 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {displayCases.map((c, i) => {
             const color = c.color || '#22C55E'
+            const xDir = i % 2 === 0 ? -60 : 60
             return (
               <motion.div
                 key={c.id}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
+                initial={{ opacity: 0, x: xDir, scale: 0.88, borderRadius: '4px' }}
+                whileInView={{ opacity: 1, x: 0, scale: 1, borderRadius: '16px' }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: EASE }}
                 className="glass-card p-6 flex flex-col"
               >
                 <div className="flex items-center gap-2 mb-4">

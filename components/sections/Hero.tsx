@@ -1,13 +1,105 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronDown, Bot, TrendingUp, Zap } from 'lucide-react'
+import { ArrowRight, ChevronDown } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
+const MATRIX_CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&'
+
+const CYCLING_WORDS = [
+  'Telegram-ботов',
+  'парсеров данных',
+  'RAG-решений',
+  'чат-ботов для маркетплейсов',
+  'AI-агентов',
+  'нейросетей',
+  'умной автоматизации',
+]
+
+function MatrixWord() {
+  const [displayText, setDisplayText] = useState('')
+  const [wordIndex, setWordIndex] = useState(0)
+  const [phase, setPhase] = useState<'scramble' | 'reveal' | 'hold' | 'erase'>('reveal')
+
+  useEffect(() => {
+    const targetWord = CYCLING_WORDS[wordIndex]
+    let frame = 0
+    let interval: ReturnType<typeof setInterval>
+
+    if (phase === 'reveal') {
+      let revealed = 0
+      interval = setInterval(() => {
+        frame++
+        const scrambled = targetWord
+          .split('')
+          .map((char, i) => {
+            if (char === ' ') return ' '
+            if (i < revealed) return char
+            return MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]
+          })
+          .join('')
+        setDisplayText(scrambled)
+        if (frame % 3 === 0) revealed++
+        if (revealed > targetWord.length) {
+          clearInterval(interval)
+          setDisplayText(targetWord)
+          setPhase('hold')
+        }
+      }, 40)
+    } else if (phase === 'hold') {
+      interval = setInterval(() => {
+        clearInterval(interval)
+        setPhase('erase')
+      }, 2200)
+    } else if (phase === 'erase') {
+      let erased = 0
+      interval = setInterval(() => {
+        frame++
+        const scrambled = targetWord
+          .split('')
+          .map((char, i) => {
+            if (char === ' ') return ' '
+            if (i < erased) return '\u00A0'
+            return MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]
+          })
+          .join('')
+        setDisplayText(scrambled)
+        if (frame % 2 === 0) erased++
+        if (erased > targetWord.length) {
+          clearInterval(interval)
+          setDisplayText('')
+          setWordIndex((prev) => (prev + 1) % CYCLING_WORDS.length)
+          setPhase('reveal')
+        }
+      }, 35)
+    }
+
+    return () => clearInterval(interval)
+  }, [phase, wordIndex])
+
+  return (
+    <span
+      className="font-mono"
+      style={{ color: '#22C55E', textShadow: '0 0 20px rgba(34,197,94,0.6)', minWidth: '1ch', display: 'inline-block' }}
+    >
+      {displayText}
+      <span
+        style={{
+          display: 'inline-block',
+          width: '2px',
+          height: '1em',
+          background: '#22C55E',
+          marginLeft: '2px',
+          verticalAlign: 'text-bottom',
+          animation: 'blink 1s step-end infinite',
+        }}
+      />
+    </span>
+  )
+}
 
 interface HeroProps {
   badgeText?: string
-  heading?: string
-  headingHighlight?: string
-  headingEnd?: string
   subheading?: string
   stat1Value?: string
   stat1Label?: string
@@ -19,9 +111,6 @@ interface HeroProps {
 
 export default function Hero({
   badgeText = '✦ Автоматизация бизнеса нового поколения',
-  heading = 'Автоматизируйте',
-  headingHighlight = 'бизнес-процессы',
-  headingEnd = 'с помощью умных ботов',
   subheading = 'Telegram-боты, парсеры, RAG-решения и чат-боты для маркетплейсов. Профессиональные инструменты для малого бизнеса и e-commerce в России и СНГ.',
   stat1Value = '50+',
   stat1Label = 'Продуктов',
@@ -31,21 +120,22 @@ export default function Hero({
   stat3Label = 'Автоматизация',
 }: HeroProps) {
   const stats = [
-    { icon: Bot, value: stat1Value, label: stat1Label },
-    { icon: TrendingUp, value: stat2Value, label: stat2Label },
-    { icon: Zap, value: stat3Value, label: stat3Label },
+    { value: stat1Value, label: stat1Label },
+    { value: stat2Value, label: stat2Label },
+    { value: stat3Value, label: stat3Label },
   ]
 
   const scrollToProducts = () => document.querySelector('#products')?.scrollIntoView({ behavior: 'smooth' })
   const scrollToContact = () => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <section className="grid-bg relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <section className="grid-bg relative min-h-screen flex flex-col items-start justify-center overflow-hidden">
+      <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
       <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full animate-blob" style={{ background: 'rgba(34,197,94,0.12)', filter: 'blur(60px)', zIndex: 2 }} />
       <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full animate-blob animation-delay-2000" style={{ background: 'rgba(16,185,129,0.1)', filter: 'blur(60px)', zIndex: 2 }} />
       <div className="absolute bottom-1/4 left-1/3 w-56 h-56 rounded-full animate-blob animation-delay-4000" style={{ background: 'rgba(52,211,153,0.08)', filter: 'blur(50px)', zIndex: 2 }} />
 
-      <div className="relative z-10 container mx-auto text-center px-4 pt-24 pb-16">
+      <div className="relative z-10 container mx-auto text-left px-4 pt-24 pb-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="inline-flex items-center gap-2 mb-6 md:mb-8">
           <span className="px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide" style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)', color: '#22C55E' }}>
             {badgeText}
@@ -59,17 +149,16 @@ export default function Hero({
           className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 md:mb-6"
           style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}
         >
-          {heading}{' '}
-          <span className="gradient-text">{headingHighlight}</span>
+          Автоматизация бизнес-процессов с помощью
           <br />
-          {headingEnd}
+          <MatrixWord />
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-sm md:text-base lg:text-lg max-w-2xl mx-auto mb-6 md:mb-10 leading-relaxed px-2"
+          className="text-sm md:text-base lg:text-lg max-w-2xl mb-6 md:mb-10 leading-relaxed"
           style={{ color: 'rgba(230,237,243,0.6)' }}
         >
           {subheading}
@@ -79,7 +168,7 @@ export default function Hero({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mb-10 md:mb-16 w-full px-2"
+          className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-10 md:mb-16 w-full"
         >
           <button onClick={scrollToContact} className="btn-gradient flex items-center gap-2 text-sm md:text-base w-full sm:w-auto" style={{ padding: '12px 24px' }}>
             Получить консультацию
@@ -94,19 +183,16 @@ export default function Hero({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-6 w-full px-2"
+          className="flex flex-col sm:flex-row items-start gap-3 md:gap-6 w-full"
         >
           {stats.map((stat, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-lg md:rounded-xl w-full sm:w-auto justify-center"
+              className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-lg md:rounded-xl w-full sm:w-auto"
               style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(10px)' }}
             >
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(34,197,94,0.12)' }}>
-                <stat.icon size={16} style={{ color: '#22C55E' }} />
-              </div>
               <div className="text-left">
-                <div className="text-lg md:text-xl font-bold leading-none" style={{ color: '#E6EDF3' }}>{stat.value}</div>
+                <div className="text-lg md:text-xl font-bold leading-none" style={{ color: '#22C55E' }}>{stat.value}</div>
                 <div className="text-xs mt-0.5 whitespace-nowrap" style={{ color: 'rgba(230,237,243,0.5)' }}>{stat.label}</div>
               </div>
             </div>
