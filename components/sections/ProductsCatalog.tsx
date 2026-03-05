@@ -4,6 +4,7 @@ import { useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Search, Bot, Brain, MessageSquare, RefreshCw, BarChart2, Layers, ShoppingCart, TrendingUp, Zap, X } from 'lucide-react'
+import MatrixText from '@/components/ui/MatrixText'
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Bot, Search, Brain, MessageSquare, RefreshCw, BarChart2, Layers, ShoppingCart, TrendingUp, Zap,
@@ -42,11 +43,11 @@ export default function ProductsCatalog({ products }: { products: Product[] }) {
       {/* Hero header */}
       <section className="grid-bg py-16">
         <div className="container mx-auto">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center mb-12">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-12">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
-              Каталог продуктов
+              <MatrixText text="Каталог продуктов" />
             </h1>
-            <p className="text-base max-w-2xl mx-auto" style={{ color: 'rgba(230,237,243,0.55)' }}>
+            <p className="text-base max-w-2xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
               Готовые решения для автоматизации вашего бизнеса
             </p>
           </motion.div>

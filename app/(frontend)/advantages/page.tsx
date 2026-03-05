@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { getPayloadClient } from '@/lib/payload'
 import Advantages from '@/components/sections/Advantages'
 import Contact from '@/components/sections/Contact'
+import MatrixText from '@/components/ui/MatrixText'
 
 export const metadata: Metadata = {
   title: 'Преимущества',
@@ -29,11 +30,11 @@ export default async function AdvantagesPage() {
   return (
     <div className="min-h-screen pt-16" style={{ background: '#081410' }}>
       <section className="grid-bg py-16">
-        <div className="container mx-auto text-center">
+        <div className="container mx-auto">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
-            Почему GMLB
+            <MatrixText text="Почему GMLB" />
           </h1>
-          <p className="text-base max-w-2xl mx-auto" style={{ color: 'rgba(230,237,243,0.55)' }}>
+          <p className="text-base max-w-2xl" style={{ color: 'rgba(230,237,243,0.55)' }}>
             Мы не просто пишем код — мы решаем бизнес-задачи
           </p>
         </div>

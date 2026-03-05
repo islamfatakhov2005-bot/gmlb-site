@@ -87,7 +87,7 @@ export default async function HomePage() {
         stat3Label={s?.stat3Label}
       />
       {/* Section wrapper slides over Hero with rounded top corners */}
-      <div style={{ position: 'relative', zIndex: 2, borderRadius: '40px 40px 0 0', overflow: 'hidden', marginTop: '-60px', background: '#111318' }}>
+      <div className="sections-wrapper" style={{ position: 'relative', zIndex: 2, borderRadius: '40px 40px 0 0', overflow: 'hidden', marginTop: '-60px', background: '#111318' }}>
         <ProductsGrid products={mappedProducts} />
         <div className="section-divider" />
         <About

@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { Send, CheckCircle2, Phone, MessageSquare, User, FileText } from 'lucide-react'
 import { toast } from 'sonner'
+import MatrixText from '@/components/ui/MatrixText'
 
 interface ContactProps {
   telegram?: string
@@ -60,8 +61,7 @@ export default function Contact({ telegram = 'gmlb_automation' }: ContactProps) 
               Связаться с нами
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-5 leading-tight" style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}>
-              Готовы автоматизировать{' '}
-              <span className="gradient-text">ваш бизнес?</span>
+              <MatrixText text="Готовы автоматизировать ваш бизнес?" />
             </h2>
             <p className="text-base leading-relaxed mb-8" style={{ color: 'rgba(230,237,243,0.6)' }}>
               Оставьте заявку и мы свяжемся с вами в течение 2 часов. Обсудим ваши задачи и предложим оптимальное решение.
