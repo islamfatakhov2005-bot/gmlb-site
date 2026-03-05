@@ -49,11 +49,11 @@ export default function MatrixText({ text, className, delay = 300 }: MatrixTextP
   }, [isInView, done, text, delay])
 
   return (
-    <span ref={ref} className={className} style={{ display: 'inline-block', position: 'relative' }}>
-      {/* invisible placeholder preserves layout dimensions */}
-      <span style={{ visibility: 'hidden' }}>{text}</span>
+    <span ref={ref} className={className} style={{ display: 'block', position: 'relative' }}>
+      {/* invisible placeholder preserves height and wrapping */}
+      <span style={{ visibility: 'hidden', display: 'block' }}>{text}</span>
       {/* animated overlay */}
-      <span style={{ position: 'absolute', top: 0, left: 0, whiteSpace: 'pre' }}>
+      <span style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
         {isInView ? display : ''}
         {!done && isInView && (
           <span

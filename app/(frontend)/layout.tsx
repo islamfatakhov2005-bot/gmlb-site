@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
-import { Golos_Text } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
 import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 
-const golosText = Golos_Text({
+const inter = Inter({
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
-  variable: '--font-golos',
+  variable: '--font-inter',
   weight: ['400', '500', '600', '700', '800', '900'],
 })
 
@@ -46,8 +46,8 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   }
 
   return (
-    <html lang="ru" className={golosText.variable} style={{ overflowX: 'clip' }}>
-      <body style={{ fontFamily: 'var(--font-golos), system-ui, sans-serif', overflowX: 'clip' }}>
+    <html lang="ru" className={inter.variable} style={{ overflowX: 'clip' }}>
+      <body style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif', overflowX: 'clip' }}>
         <Toaster theme="dark" position="bottom-right" />
         <Header />
         <main className="min-h-screen">{children}</main>
