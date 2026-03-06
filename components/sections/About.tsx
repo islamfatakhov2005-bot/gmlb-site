@@ -5,6 +5,14 @@ import { useRef, useState, useEffect } from 'react'
 import { CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
 
+// Renders text with **word** highlighted in green
+function renderGreen(text: string) {
+  const parts = text.split(/\*\*(.*?)\*\*/g)
+  return parts.map((part, i) =>
+    i % 2 === 1 ? <span key={i} className="gradient-text">{part}</span> : part
+  )
+}
+
 interface AboutProps {
   heading?: string
   description?: string
@@ -22,7 +30,7 @@ const DEFAULT_POINTS = [
 ]
 
 export default function About({
-  heading = 'Мы делаем автоматизацию доступной для малого бизнеса',
+  heading = 'Мы делаем автоматизацию **доступной** для малого бизнеса',
   description = 'GMLB — команда разработчиков, специализирующихся на автоматизации бизнес-процессов для малого бизнеса и e-commerce. Мы создаём инструменты, которые раньше были доступны только крупным компаниям.',
   points = DEFAULT_POINTS,
   imageUrl,
@@ -63,9 +71,7 @@ export default function About({
               О компании
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-5 leading-tight" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
-              {heading.replace('доступной', '')}
-              <span className="gradient-text">доступной</span>
-              {heading.includes('для малого бизнеса') ? ' для малого бизнеса' : ''}
+              {renderGreen(heading)}
             </h2>
             <p className="text-base leading-relaxed mb-8" style={{ color: 'rgba(15,23,42,0.6)' }}>{description}</p>
 

@@ -27,7 +27,7 @@ export const SiteSettings: GlobalConfig = {
         {
           label: 'О компании',
           fields: [
-            { name: 'aboutHeading', type: 'text', label: 'Заголовок', defaultValue: 'Мы делаем автоматизацию доступной для малого бизнеса' },
+            { name: 'aboutHeading', type: 'text', label: 'Заголовок', defaultValue: 'Мы делаем автоматизацию **доступной** для малого бизнеса', admin: { description: 'Оберните слово в **звёздочки** чтобы покрасить его в зелёный. Пример: **доступной**' } },
             { name: 'aboutDescription', type: 'textarea', label: 'Описание', defaultValue: 'GMLB — команда разработчиков, специализирующихся на автоматизации бизнес-процессов для малого бизнеса и e-commerce. Мы создаём инструменты, которые раньше были доступны только крупным компаниям.' },
             {
               name: 'aboutPoints',
