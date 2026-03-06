@@ -197,8 +197,8 @@ export default function Hero({
           muted
           loop
           playsInline
-          className="absolute"
-          style={{ zIndex: 1, mixBlendMode: 'screen', opacity: 0.55, bottom: 0, right: '5%', height: '75%', width: 'auto', objectFit: 'contain' }}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ zIndex: 1, mixBlendMode: 'screen', opacity: 0.55 }}
         >
           <source src={videoUrl} type="video/mp4" />
         </video>
