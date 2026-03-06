@@ -30,6 +30,9 @@ export const metadata: Metadata = {
   verification: {
     google: 'po9hkhBrunVc_q5OazHuJuBPZMmskw7hT3rQokibpho',
   },
+  other: {
+    'yandex-verification': 'ac517cc55887a958',
+  },
 }
 
 export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
