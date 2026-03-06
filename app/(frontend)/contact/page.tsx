@@ -15,7 +15,7 @@ export default async function ContactPage() {
   } catch { /* use defaults */ }
 
   return (
-    <div className="page-light min-h-screen pt-16" style={{ background: '#ffffff' }}>
+    <div className="page-light min-h-screen pt-16" style={{ background: '#ffffff', borderRadius: '0 0 85px 85px', overflow: 'hidden' }}>
       <Contact telegram={settings?.telegram} />
     </div>
   )

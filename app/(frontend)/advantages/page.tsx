@@ -28,7 +28,7 @@ export default async function AdvantagesPage() {
   }))
 
   return (
-    <div className="page-light min-h-screen pt-16" style={{ background: '#ffffff' }}>
+    <div className="page-light min-h-screen pt-16" style={{ background: '#ffffff', borderRadius: '0 0 85px 85px', overflow: 'hidden' }}>
       <section className="grid-bg py-16">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>

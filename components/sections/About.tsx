@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
 
@@ -31,6 +31,27 @@ export default function About({
 }: AboutProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
+
+  // Counter animation for statValue
+  const statMatch = statValue.match(/^(\d+)(.*)$/)
+  const statTarget = statMatch ? parseInt(statMatch[1]) : 0
+  const statSuffix = statMatch ? statMatch[2] : ''
+  const isStatStatic = !statMatch
+  const [statCount, setStatCount] = useState(0)
+
+  useEffect(() => {
+    if (!isInView || isStatStatic) return
+    const duration = 1400
+    const start = performance.now()
+    const animate = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setStatCount(Math.floor(eased * statTarget))
+      if (progress < 1) requestAnimationFrame(animate)
+      else setStatCount(statTarget)
+    }
+    requestAnimationFrame(animate)
+  }, [isInView, isStatStatic, statTarget])
 
   return (
     <section id="about" className="grid-bg py-24 relative overflow-hidden">
@@ -88,7 +109,9 @@ export default function About({
               className="absolute -bottom-4 -left-4 px-4 py-3 rounded-xl"
               style={{ background: 'rgba(255,255,255,0.95)', border: '1px solid rgba(34,197,94,0.25)', backdropFilter: 'blur(10px)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}
             >
-              <div className="text-xl font-bold" style={{ color: '#22C55E' }}>{statValue}</div>
+              <div className="text-xl font-bold" style={{ color: '#22C55E' }}>
+                {isStatStatic ? statValue : `${statCount}${statSuffix}`}
+              </div>
               <div className="text-xs" style={{ color: 'rgba(15,23,42,0.55)' }}>{statLabel}</div>
             </div>
           </motion.div>

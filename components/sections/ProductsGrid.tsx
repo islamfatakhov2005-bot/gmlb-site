@@ -87,7 +87,7 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
   }
 
   return (
-    <section id="products" className="grid-bg py-16 md:py-24 overflow-hidden">
+    <section id="products" className="grid-bg py-16 md:py-24">
       <div className="container mx-auto">
         {showHeader && (
           <motion.div
@@ -124,21 +124,21 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
             {/* Arrow buttons */}
             <button
               onClick={() => scroll('left')}
-              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 items-center justify-center rounded-full transition-all duration-200"
-              style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)', color: '#22C55E' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.22)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.12)')}
+              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10 w-8 h-8 items-center justify-center transition-all duration-200"
+              style={{ color: 'rgba(15,23,42,0.3)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={22} />
             </button>
             <button
               onClick={() => scroll('right')}
-              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 items-center justify-center rounded-full transition-all duration-200"
-              style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)', color: '#22C55E' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.22)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.12)')}
+              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10 w-8 h-8 items-center justify-center transition-all duration-200"
+              style={{ color: 'rgba(15,23,42,0.3)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
             >
-              <ChevronRight size={18} />
+              <ChevronRight size={22} />
             </button>
 
             {/* Scrollable row */}
@@ -156,7 +156,7 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
               {products.map((product) => (
                 <div
                   key={product.id}
-                  style={{ minWidth: 'min(320px, 82vw)', scrollSnapAlign: 'start' }}
+                  style={{ minWidth: 'min(300px, 74vw)', width: 'min(300px, 74vw)', scrollSnapAlign: 'start' }}
                 >
                   <ProductCard product={product} />
                 </div>

@@ -67,7 +67,7 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
   const hasMore = displayCases.length > INITIAL_COUNT
 
   return (
-    <section id="cases" className="grid-bg py-24 relative overflow-hidden">
+    <section id="cases" className="grid-bg py-24 relative">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, x: -40 }}

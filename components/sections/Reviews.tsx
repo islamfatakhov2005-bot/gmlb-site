@@ -27,7 +27,7 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
   }
 
   return (
-    <section id="reviews" className="grid-bg py-24 relative overflow-hidden">
+    <section id="reviews" className="grid-bg py-24 relative">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -54,21 +54,21 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
           {/* Arrow buttons */}
           <button
             onClick={() => scroll('left')}
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 items-center justify-center rounded-full transition-all duration-200"
-            style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: '#FCD34D' }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(245,158,11,0.2)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(245,158,11,0.1)')}
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10 w-8 h-8 items-center justify-center transition-all duration-200"
+            style={{ color: 'rgba(15,23,42,0.3)' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
           >
-            <ChevronLeft size={18} />
+            <ChevronLeft size={22} />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 items-center justify-center rounded-full transition-all duration-200"
-            style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: '#FCD34D' }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(245,158,11,0.2)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(245,158,11,0.1)')}
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10 w-8 h-8 items-center justify-center transition-all duration-200"
+            style={{ color: 'rgba(15,23,42,0.3)' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
           >
-            <ChevronRight size={18} />
+            <ChevronRight size={22} />
           </button>
 
           {/* Scrollable row */}
@@ -86,7 +86,7 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
               <div
                 key={review.id}
                 className="glass-card p-6 flex flex-col flex-shrink-0"
-                style={{ minWidth: 'min(300px, 82vw)', scrollSnapAlign: 'start' }}
+                style={{ minWidth: 'min(280px, 74vw)', width: 'min(280px, 74vw)', scrollSnapAlign: 'start' }}
               >
                 <Quote size={20} className="mb-4" style={{ color: 'rgba(59,130,246,0.3)' }} />
                 <div className="flex gap-1 mb-3">

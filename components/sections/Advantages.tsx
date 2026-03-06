@@ -69,7 +69,7 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
   }
 
   return (
-    <section id="advantages" className="grid-bg py-24 relative overflow-hidden">
+    <section id="advantages" className="grid-bg py-24 relative">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -119,7 +119,7 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
                 <div
                   key={`${adv.id || i}-${i}`}
                   className="glass-card p-6 flex-shrink-0"
-                  style={{ minWidth: 'min(300px, 78vw)' }}
+                  style={{ minWidth: 'min(300px, 74vw)', width: 'min(300px, 74vw)' }}
                 >
                   <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
                     <IconComp size={20} style={{ color }} />

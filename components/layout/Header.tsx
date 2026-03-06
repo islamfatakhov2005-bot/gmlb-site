@@ -37,7 +37,7 @@ export default function Header() {
           justifyContent: 'space-between',
           padding: '14px 28px',
           borderRadius: '20px',
-          background: scrolled ? 'rgba(8,20,14,0.88)' : 'rgba(8,20,14,0.52)',
+          background: scrolled ? 'rgba(8,20,14,0.78)' : 'rgba(8,20,14,0.28)',
           backdropFilter: 'blur(32px)',
           WebkitBackdropFilter: 'blur(32px)',
           border: `1px solid ${scrolled ? 'rgba(34,197,94,0.35)' : 'rgba(34,197,94,0.2)'}`,

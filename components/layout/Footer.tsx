@@ -17,12 +17,12 @@ export default function Footer({ telegram = 'gmlb_automation', email = 'info@gml
 
   const { scrollYProgress } = useScroll({
     target: footerRef,
-    offset: ['start end', 'center center'],
+    offset: ['start end', 'start 0.15'],
   })
 
   // Starts blurry + slightly zoomed, becomes sharp + normal as you scroll to it
-  const blurAmount = useTransform(scrollYProgress, [0, 0.8], [10, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.8], [1.04, 1])
+  const blurAmount = useTransform(scrollYProgress, [0, 1], [8, 0])
+  const scale = useTransform(scrollYProgress, [0, 1], [1.03, 1])
   const filterStyle = useMotionTemplate`blur(${blurAmount}px)`
 
   return (
