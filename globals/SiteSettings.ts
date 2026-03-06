@@ -14,6 +14,14 @@ export const SiteSettings: GlobalConfig = {
           label: '🚀 Главный экран',
           fields: [
             { name: 'heroBadge', type: 'text', label: 'Текст бейджа', defaultValue: '✦ Автоматизация бизнеса нового поколения' },
+            { name: 'heroHeading', type: 'text', label: 'Заголовок (первая строка)', defaultValue: 'Автоматизация бизнеса', admin: { description: 'Первая строка большого заголовка. Вторая строка — анимированные слова ниже.' } },
+            {
+              name: 'heroCyclingWords',
+              type: 'array',
+              label: 'Анимированные слова (вторая строка)',
+              admin: { description: 'Слова которые по очереди печатаются в зелёном цвете под заголовком' },
+              fields: [{ name: 'word', type: 'text', required: true, label: 'Слово / фраза' }],
+            },
             { name: 'heroSubheading', type: 'textarea', label: 'Подзаголовок', defaultValue: 'Telegram-боты, парсеры, RAG-решения и чат-боты для маркетплейсов. Профессиональные инструменты для малого бизнеса и e-commerce в России и СНГ.' },
             { name: 'stat1Value', type: 'text', label: 'Стат 1: значение', defaultValue: '50+' },
             { name: 'stat1Label', type: 'text', label: 'Стат 1: подпись', defaultValue: 'Продуктов' },

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 
 const MATRIX_CHARS = '01@#$%&*!<>?/|{}[]=+~01100101011011000110'
 
-const CYCLING_WORDS = [
+const DEFAULT_CYCLING_WORDS = [
   'Telegram-боты',
   'парсеры данных',
   'RAG-решения',
@@ -16,13 +16,13 @@ const CYCLING_WORDS = [
   'умная автоматизация',
 ]
 
-function MatrixWord() {
+function MatrixWord({ words }: { words: string[] }) {
   const [displayText, setDisplayText] = useState('')
   const [wordIndex, setWordIndex] = useState(0)
   const [phase, setPhase] = useState<'reveal' | 'hold' | 'erase'>('reveal')
 
   useEffect(() => {
-    const targetWord = CYCLING_WORDS[wordIndex]
+    const targetWord = words[wordIndex % words.length]
     let timerId: ReturnType<typeof setInterval> | ReturnType<typeof setTimeout>
 
     if (phase === 'reveal') {
@@ -30,7 +30,7 @@ function MatrixWord() {
       timerId = setInterval(() => {
         const display = targetWord
           .split('')
-          .map((char, i) => {
+          .map((char: string, i: number) => {
             if (i < revealed) return char === ' ' ? ' ' : char
             if (i === revealed) return MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]
             return ''
@@ -54,7 +54,7 @@ function MatrixWord() {
         if (remaining <= 0) {
           clearInterval(timerId as ReturnType<typeof setInterval>)
           setDisplayText('')
-          setWordIndex((prev) => (prev + 1) % CYCLING_WORDS.length)
+          setWordIndex((prev) => (prev + 1) % words.length)
           setPhase('reveal')
         }
       }, 50)
@@ -136,6 +136,8 @@ function CounterStat({ value, label }: { value: string; label: string }) {
 
 interface HeroProps {
   badgeText?: string
+  heading?: string
+  cyclingWords?: string[]
   subheading?: string
   stat1Value?: string
   stat1Label?: string
@@ -148,6 +150,8 @@ interface HeroProps {
 
 export default function Hero({
   badgeText = '✦ Автоматизация бизнеса нового поколения',
+  heading = 'Автоматизация бизнеса',
+  cyclingWords = DEFAULT_CYCLING_WORDS,
   subheading = 'Telegram-боты, парсеры, RAG-решения и чат-боты для маркетплейсов. Профессиональные инструменты для малого бизнеса и e-commerce в России и СНГ.',
   stat1Value = '50+',
   stat1Label = 'Продуктов',
@@ -232,10 +236,10 @@ export default function Hero({
             className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
             style={{ color: '#E6EDF3', letterSpacing: '-0.02em' }}
           >
-            Автоматизация бизнеса
+            {heading}
             <br />
             <span style={{ display: 'block', minHeight: '1.2em', overflow: 'hidden' }}>
-              <MatrixWord />
+              <MatrixWord words={cyclingWords} />
             </span>
           </h1>
         </motion.div>

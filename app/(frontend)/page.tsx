@@ -78,6 +78,8 @@ export default async function HomePage() {
     <>
       <Hero
         badgeText={s?.heroBadge}
+        heading={s?.heroHeading}
+        cyclingWords={s?.heroCyclingWords?.length ? s.heroCyclingWords.map((w: any) => w.word) : undefined}
         subheading={s?.heroSubheading}
         stat1Value={s?.stat1Value}
         stat1Label={s?.stat1Label}
