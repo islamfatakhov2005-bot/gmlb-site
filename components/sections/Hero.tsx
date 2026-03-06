@@ -161,7 +161,7 @@ export default function Hero({
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    if (videoRef.current) videoRef.current.playbackRate = 0.9
+    if (videoRef.current) videoRef.current.playbackRate = 0.8
   }, [])
 
   const { scrollYProgress } = useScroll({
@@ -197,8 +197,8 @@ export default function Hero({
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ zIndex: 1, mixBlendMode: 'screen', opacity: 0.55, objectPosition: 'center 70%' }}
+          className="absolute"
+          style={{ zIndex: 1, mixBlendMode: 'screen', opacity: 0.55, bottom: 0, right: '5%', height: '75%', width: 'auto', objectFit: 'contain' }}
         >
           <source src={videoUrl} type="video/mp4" />
         </video>
