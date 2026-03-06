@@ -160,9 +160,9 @@ export default function Hero({
   const heroRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  useEffect(() => {
+  const handleVideoLoad = () => {
     if (videoRef.current) videoRef.current.playbackRate = 0.8
-  }, [])
+  }
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -197,8 +197,10 @@ export default function Hero({
           muted
           loop
           playsInline
+          onLoadedMetadata={handleVideoLoad}
+          onCanPlay={handleVideoLoad}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ zIndex: 1, mixBlendMode: 'screen', opacity: 0.55 }}
+          style={{ zIndex: 1, mixBlendMode: 'screen', opacity: 0.55, WebkitTransform: 'translateZ(0)' }}
         >
           <source src={videoUrl} type="video/mp4" />
         </video>

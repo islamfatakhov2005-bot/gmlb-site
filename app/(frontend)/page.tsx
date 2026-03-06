@@ -7,7 +7,7 @@ import Advantages from '@/components/sections/Advantages'
 import Reviews from '@/components/sections/Reviews'
 import Contact from '@/components/sections/Contact'
 
-export const revalidate = 300
+export const revalidate = 30
 
 export default async function HomePage() {
   let products: any[] = []
