@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     locale: 'ru_RU',
     siteName: 'GMLB',
   },
+  verification: {
+    google: 'po9hkhBrunVc_q5OazHuJuBPZMmskw7hT3rQokibpho',
+  },
 }
 
 export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
