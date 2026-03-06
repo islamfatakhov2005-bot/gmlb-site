@@ -17,7 +17,7 @@ export default function Footer({ telegram = 'gmlb_automation', email = 'info@gml
 
   const { scrollYProgress } = useScroll({
     target: footerRef,
-    offset: ['start end', 'start 0.15'],
+    offset: ['start end', 'start 0.5'],
   })
 
   // Starts blurry + slightly zoomed, becomes sharp + normal as you scroll to it

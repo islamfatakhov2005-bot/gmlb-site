@@ -105,6 +105,7 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
               msOverflowStyle: 'none',
               cursor: 'grab',
               userSelect: 'none',
+              paddingTop: '8px',
             }}
             onMouseEnter={handlePauseOn}
             onMouseLeave={handlePauseOff}

@@ -89,6 +89,7 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          style={{ paddingTop: '8px' }}
           variants={gridVariants}
           initial="hidden"
           whileInView="show"

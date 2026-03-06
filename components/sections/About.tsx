@@ -33,7 +33,8 @@ export default function About({
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   // Counter animation for statValue
-  const statMatch = statValue.match(/^(\d+)(.*)$/)
+  const sv = statValue ?? '50+'
+  const statMatch = sv.match(/^(\d+)(.*)$/)
   const statTarget = statMatch ? parseInt(statMatch[1]) : 0
   const statSuffix = statMatch ? statMatch[2] : ''
   const isStatStatic = !statMatch
@@ -54,7 +55,7 @@ export default function About({
   }, [isInView, isStatStatic, statTarget])
 
   return (
-    <section id="about" className="grid-bg py-24 relative overflow-hidden">
+    <section id="about" className="grid-bg py-24 relative">
       <div className="container mx-auto">
         <div ref={ref} className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -40 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6 }}>

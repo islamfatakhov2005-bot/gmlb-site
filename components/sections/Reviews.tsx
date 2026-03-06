@@ -34,43 +34,40 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="mb-14"
+          className="mb-14 flex items-end justify-between gap-4"
         >
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: '#FCD34D' }}>
-            Отзывы клиентов
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
-            <MatrixText text="Что говорят наши клиенты" />
-          </h2>
+          <div>
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: '#FCD34D' }}>
+              Отзывы клиентов
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
+              <MatrixText text="Что говорят наши клиенты" />
+            </h2>
+          </div>
+          <div className="hidden md:flex items-center gap-1 flex-shrink-0 pb-5">
+            <button
+              onClick={() => scroll('left')}
+              className="w-8 h-8 flex items-center justify-center transition-colors duration-200"
+              style={{ color: 'rgba(15,23,42,0.3)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
+            ><ChevronLeft size={22} /></button>
+            <button
+              onClick={() => scroll('right')}
+              className="w-8 h-8 flex items-center justify-center transition-colors duration-200"
+              style={{ color: 'rgba(15,23,42,0.3)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
+            ><ChevronRight size={22} /></button>
+          </div>
         </motion.div>
 
         <motion.div
-          className="relative"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.05 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Arrow buttons */}
-          <button
-            onClick={() => scroll('left')}
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10 w-8 h-8 items-center justify-center transition-all duration-200"
-            style={{ color: 'rgba(15,23,42,0.3)' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
-          >
-            <ChevronLeft size={22} />
-          </button>
-          <button
-            onClick={() => scroll('right')}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10 w-8 h-8 items-center justify-center transition-all duration-200"
-            style={{ color: 'rgba(15,23,42,0.3)' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
-          >
-            <ChevronRight size={22} />
-          </button>
-
           {/* Scrollable row */}
           <div
             ref={scrollRef}
@@ -80,6 +77,7 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
               scrollSnapType: 'x mandatory',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
+              paddingTop: '8px',
             }}
           >
             {displayReviews.map((review) => (

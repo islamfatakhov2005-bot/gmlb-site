@@ -95,17 +95,35 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7 }}
-            className="mb-10 md:mb-14"
+            className="mb-10 md:mb-14 flex items-end justify-between gap-4"
           >
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
-              Каталог продуктов
-            </span>
-            <h2 className="text-2xl md:text-3xl lg:text-5xl font-extrabold mb-3 md:mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
-              <MatrixText text="Решения для вашего бизнеса" />
-            </h2>
-            <p className="text-sm md:text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>
-              Готовые инструменты автоматизации, которые экономят время и увеличивают прибыль
-            </p>
+            <div>
+              <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
+                Каталог продуктов
+              </span>
+              <h2 className="text-2xl md:text-3xl lg:text-5xl font-extrabold mb-3 md:mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
+                <MatrixText text="Решения для вашего бизнеса" />
+              </h2>
+              <p className="text-sm md:text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>
+                Готовые инструменты автоматизации, которые экономят время и увеличивают прибыль
+              </p>
+            </div>
+            <div className="hidden md:flex items-center gap-1 flex-shrink-0 pb-1">
+              <button
+                onClick={() => scroll('left')}
+                className="w-8 h-8 flex items-center justify-center transition-colors duration-200"
+                style={{ color: 'rgba(15,23,42,0.3)' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
+              ><ChevronLeft size={22} /></button>
+              <button
+                onClick={() => scroll('right')}
+                className="w-8 h-8 flex items-center justify-center transition-colors duration-200"
+                style={{ color: 'rgba(15,23,42,0.3)' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
+              ><ChevronRight size={22} /></button>
+            </div>
           </motion.div>
         )}
 
@@ -115,32 +133,11 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
           </div>
         ) : (
           <motion.div
-            className="relative"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.05 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Arrow buttons */}
-            <button
-              onClick={() => scroll('left')}
-              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10 w-8 h-8 items-center justify-center transition-all duration-200"
-              style={{ color: 'rgba(15,23,42,0.3)' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
-            >
-              <ChevronLeft size={22} />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10 w-8 h-8 items-center justify-center transition-all duration-200"
-              style={{ color: 'rgba(15,23,42,0.3)' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.7)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.3)')}
-            >
-              <ChevronRight size={22} />
-            </button>
-
             {/* Scrollable row */}
             <div
               ref={scrollRef}
@@ -150,6 +147,7 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
                 scrollSnapType: 'x mandatory',
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none',
+                paddingTop: '8px',
               }}
             >
               <style>{`.products-scroll::-webkit-scrollbar { display: none; }`}</style>
