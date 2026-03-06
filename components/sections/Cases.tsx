@@ -1,7 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { TrendingUp, Clock, DollarSign, Users } from 'lucide-react'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { TrendingUp, Clock, DollarSign, Users, ChevronDown, ChevronUp } from 'lucide-react'
 import MatrixText from '@/components/ui/MatrixText'
 
 const ICON_MAP: Record<string, React.ElementType> = { TrendingUp, Clock, DollarSign, Users }
@@ -60,6 +61,10 @@ const gridVariants = {
 
 export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
   const displayCases = cases.length > 0 ? cases : DEFAULT_CASES
+  const [showAll, setShowAll] = useState(false)
+  const INITIAL_COUNT = 3
+  const visibleCases = showAll ? displayCases : displayCases.slice(0, INITIAL_COUNT)
+  const hasMore = displayCases.length > INITIAL_COUNT
 
   return (
     <section id="cases" className="grid-bg py-24 relative overflow-hidden">
@@ -89,35 +94,67 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
           whileInView="show"
           viewport={{ once: true, amount: 0.05 }}
         >
-          {displayCases.map((c) => {
-            const color = c.color || '#22C55E'
-            return (
-              <motion.div key={c.id} variants={cardVariants} className="glass-card p-6 flex flex-col">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="px-2.5 py-1 rounded-full text-xs font-semibold" style={{ background: `${color}15`, border: `1px solid ${color}25`, color }}>
-                    {c.clientType}
-                  </span>
-                </div>
-                <h3 className="text-base font-bold mb-3 leading-snug" style={{ color: '#0F172A' }}>{c.title}</h3>
-                <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: 'rgba(15,23,42,0.55)' }}>{c.description}</p>
-                {c.metrics && c.metrics.length > 0 && (
-                  <div className="grid grid-cols-3 gap-2">
-                    {c.metrics.map((m, j) => {
-                      const IconComp = ICON_MAP[m.iconName || 'TrendingUp'] || TrendingUp
-                      return (
-                        <div key={j} className="rounded-xl p-3 text-center" style={{ background: `${color}08`, border: `1px solid ${color}15` }}>
-                          <IconComp size={14} style={{ color, margin: '0 auto 4px' }} />
-                          <div className="text-sm font-bold leading-none mb-1" style={{ color }}>{m.value}</div>
-                          <div className="text-xs leading-tight" style={{ color: 'rgba(15,23,42,0.5)' }}>{m.label}</div>
-                        </div>
-                      )
-                    })}
+          <AnimatePresence>
+            {visibleCases.map((c) => {
+              const color = c.color || '#22C55E'
+              return (
+                <motion.div
+                  key={c.id}
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit={{ opacity: 0, y: 20, scale: 0.95, transition: { duration: 0.3 } }}
+                  className="glass-card p-6 flex flex-col"
+                >
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="px-2.5 py-1 rounded-full text-xs font-semibold" style={{ background: `${color}15`, border: `1px solid ${color}25`, color }}>
+                      {c.clientType}
+                    </span>
                   </div>
-                )}
-              </motion.div>
-            )
-          })}
+                  <h3 className="text-base font-bold mb-3 leading-snug" style={{ color: '#0F172A' }}>{c.title}</h3>
+                  <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: 'rgba(15,23,42,0.55)' }}>{c.description}</p>
+                  {c.metrics && c.metrics.length > 0 && (
+                    <div className="grid grid-cols-3 gap-2">
+                      {c.metrics.map((m, j) => {
+                        const IconComp = ICON_MAP[m.iconName || 'TrendingUp'] || TrendingUp
+                        return (
+                          <div key={j} className="rounded-xl p-3 text-center" style={{ background: `${color}08`, border: `1px solid ${color}15` }}>
+                            <IconComp size={14} style={{ color, margin: '0 auto 4px' }} />
+                            <div className="text-sm font-bold leading-none mb-1" style={{ color }}>{m.value}</div>
+                            <div className="text-xs leading-tight" style={{ color: 'rgba(15,23,42,0.5)' }}>{m.label}</div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </motion.div>
+              )
+            })}
+          </AnimatePresence>
         </motion.div>
+
+        {hasMore && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-10 text-center"
+          >
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold transition-all duration-200"
+              style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', color: '#22C55E' }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.2)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.1)')}
+            >
+              {showAll ? (
+                <><ChevronUp size={16} /> Свернуть</>
+              ) : (
+                <><ChevronDown size={16} /> Показать все кейсы ({displayCases.length})</>
+              )}
+            </button>
+          </motion.div>
+        )}
       </div>
     </section>
   )

@@ -1,5 +1,7 @@
 'use client'
 
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
 import Link from 'next/link'
 import { Zap, Send, Mail, Phone } from 'lucide-react'
 
@@ -11,9 +13,32 @@ interface FooterProps {
 
 export default function Footer({ telegram = 'gmlb_automation', email = 'info@gmlb.ru', phone = '+7 (XXX) XXX-XX-XX' }: FooterProps) {
   const year = new Date().getFullYear()
+  const footerRef = useRef<HTMLElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: footerRef,
+    offset: ['start end', 'center center'],
+  })
+
+  // Starts blurry + slightly zoomed, becomes sharp + normal as you scroll to it
+  const blurAmount = useTransform(scrollYProgress, [0, 0.8], [10, 0])
+  const scale = useTransform(scrollYProgress, [0, 0.8], [1.04, 1])
+  const filterStyle = useMotionTemplate`blur(${blurAmount}px)`
 
   return (
-    <footer className="grid-bg" style={{ background: '#081410', borderTop: '1px solid rgba(34, 197, 94, 0.15)' }}>
+    <motion.footer
+      ref={footerRef}
+      className="grid-bg"
+      style={{
+        background: 'rgba(8,20,14,0.92)',
+        backdropFilter: 'blur(28px)',
+        WebkitBackdropFilter: 'blur(28px)',
+        borderTop: '1px solid rgba(34, 197, 94, 0.15)',
+        filter: filterStyle,
+        scale,
+        transformOrigin: 'center top',
+      }}
+    >
       <div className="container mx-auto py-14 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
@@ -101,6 +126,6 @@ export default function Footer({ telegram = 'gmlb_automation', email = 'info@gml
           <p className="text-xs" style={{ color: 'rgba(230,237,243,0.3)' }}>Россия и СНГ</p>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   )
 }

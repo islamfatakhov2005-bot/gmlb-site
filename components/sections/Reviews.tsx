@@ -1,7 +1,8 @@
 'use client'
 
+import { useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Star, Quote } from 'lucide-react'
+import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react'
 import MatrixText from '@/components/ui/MatrixText'
 
 interface Review { id: string; name: string; role: string; text: string; rating?: number; initials?: string; color?: string }
@@ -16,20 +17,14 @@ const DEFAULT_REVIEWS: Review[] = [
   { id: '6', name: 'Сергей Т.', role: 'Владелец интернет-магазина', text: 'Интеграция с Ozon и WB через API — это то, что нам было нужно. Теперь остатки синхронизируются автоматически, и мы больше не получаем заказы на отсутствующий товар.', rating: 5, initials: 'СТ', color: '#06B6D4' },
 ]
 
-const EASE = [0.25, 0.46, 0.45, 0.94] as const
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.93 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: EASE } },
-}
-
-const gridVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-}
-
 export default function Reviews({ reviews = [] }: ReviewsProps) {
   const displayReviews = reviews.length > 0 ? reviews : DEFAULT_REVIEWS
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const scroll = (dir: 'left' | 'right') => {
+    if (!scrollRef.current) return
+    scrollRef.current.scrollBy({ left: dir === 'right' ? 320 : -320, behavior: 'smooth' })
+  }
 
   return (
     <section id="reviews" className="grid-bg py-24 relative overflow-hidden">
@@ -50,35 +45,71 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
-          variants={gridVariants}
-          initial="hidden"
-          whileInView="show"
+          className="relative"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.05 }}
+          transition={{ duration: 0.6 }}
         >
-          {displayReviews.map((review) => (
-            <motion.div key={review.id} variants={cardVariants} className="glass-card p-6 flex flex-col">
-              <Quote size={20} className="mb-4" style={{ color: 'rgba(59,130,246,0.3)' }} />
-              <div className="flex gap-1 mb-3">
-                {Array.from({ length: review.rating || 5 }).map((_, j) => (
-                  <Star key={j} size={14} fill="#F59E0B" style={{ color: '#F59E0B' }} />
-                ))}
-              </div>
-              <p className="text-sm leading-relaxed flex-1 mb-5" style={{ color: 'rgba(15,23,42,0.7)' }}>"{review.text}"</p>
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-                  style={{ background: `${review.color || '#22C55E'}20`, border: `1px solid ${review.color || '#22C55E'}30`, color: review.color || '#22C55E' }}
-                >
-                  {review.initials || review.name.slice(0, 2).toUpperCase()}
+          {/* Arrow buttons */}
+          <button
+            onClick={() => scroll('left')}
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 items-center justify-center rounded-full transition-all duration-200"
+            style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: '#FCD34D' }}
+            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(245,158,11,0.2)')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(245,158,11,0.1)')}
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            onClick={() => scroll('right')}
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 items-center justify-center rounded-full transition-all duration-200"
+            style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: '#FCD34D' }}
+            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(245,158,11,0.2)')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(245,158,11,0.1)')}
+          >
+            <ChevronRight size={18} />
+          </button>
+
+          {/* Scrollable row */}
+          <div
+            ref={scrollRef}
+            className="flex gap-5 pb-3"
+            style={{
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            {displayReviews.map((review) => (
+              <div
+                key={review.id}
+                className="glass-card p-6 flex flex-col flex-shrink-0"
+                style={{ minWidth: 'min(300px, 82vw)', scrollSnapAlign: 'start' }}
+              >
+                <Quote size={20} className="mb-4" style={{ color: 'rgba(59,130,246,0.3)' }} />
+                <div className="flex gap-1 mb-3">
+                  {Array.from({ length: review.rating || 5 }).map((_, j) => (
+                    <Star key={j} size={14} fill="#F59E0B" style={{ color: '#F59E0B' }} />
+                  ))}
                 </div>
-                <div>
-                  <div className="text-sm font-semibold" style={{ color: '#0F172A' }}>{review.name}</div>
-                  <div className="text-xs" style={{ color: 'rgba(15,23,42,0.45)' }}>{review.role}</div>
+                <p className="text-sm leading-relaxed flex-1 mb-5" style={{ color: 'rgba(15,23,42,0.7)' }}>"{review.text}"</p>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                    style={{ background: `${review.color || '#22C55E'}20`, border: `1px solid ${review.color || '#22C55E'}30`, color: review.color || '#22C55E' }}
+                  >
+                    {review.initials || review.name.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold" style={{ color: '#0F172A' }}>{review.name}</div>
+                    <div className="text-xs" style={{ color: 'rgba(15,23,42,0.45)' }}>{review.role}</div>
+                  </div>
                 </div>
               </div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

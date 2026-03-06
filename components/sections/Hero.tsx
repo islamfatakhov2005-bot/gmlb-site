@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionTemplate, useInView } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -28,7 +28,6 @@ function MatrixWord() {
     if (phase === 'reveal') {
       let revealed = 0
       timerId = setInterval(() => {
-        // typewriter: correct chars typed so far + scramble cursor + nothing after
         const display = targetWord
           .split('')
           .map((char, i) => {
@@ -90,6 +89,48 @@ function MatrixWord() {
         }}
       />
     </span>
+  )
+}
+
+function CounterStat({ value, label }: { value: string; label: string }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true })
+  const [count, setCount] = useState(0)
+
+  // Parse: "50+" → { num: 50, suffix: "+" }, "24/7" → static
+  const match = value.match(/^(\d+)(.*)$/)
+  const isStatic = !match
+  const target = match ? parseInt(match[1]) : 0
+  const suffix = match ? match[2] : ''
+
+  useEffect(() => {
+    if (!inView || isStatic) return
+    const duration = 1400
+    const start = performance.now()
+    const animate = (now: number) => {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.floor(eased * target))
+      if (progress < 1) requestAnimationFrame(animate)
+      else setCount(target)
+    }
+    requestAnimationFrame(animate)
+  }, [inView, isStatic, target])
+
+  return (
+    <div
+      ref={ref}
+      className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl flex-shrink-0"
+      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(10px)' }}
+    >
+      <div className="text-left">
+        <div className="text-lg md:text-xl font-bold leading-none" style={{ color: '#22C55E' }}>
+          {isStatic ? value : `${count}${suffix}`}
+        </div>
+        <div className="text-xs mt-0.5 whitespace-nowrap" style={{ color: 'rgba(230,237,243,0.5)' }}>{label}</div>
+      </div>
+    </div>
   )
 }
 
@@ -188,13 +229,13 @@ export default function Hero({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-10 md:mb-16 w-full"
+          className="flex flex-row flex-wrap items-start gap-3 md:gap-4 mb-10 md:mb-16"
         >
-          <button onClick={scrollToContact} className="btn-gradient flex items-center gap-2 text-sm md:text-base w-full sm:w-auto">
+          <button onClick={scrollToContact} className="btn-gradient flex items-center gap-2 text-sm md:text-base flex-shrink-0">
             Получить консультацию
             <ArrowRight size={18} />
           </button>
-          <button onClick={scrollToProducts} className="btn-outline-green flex items-center gap-2 text-sm md:text-base w-full sm:w-auto">
+          <button onClick={scrollToProducts} className="btn-outline-green flex items-center gap-2 text-sm md:text-base flex-shrink-0">
             Смотреть продукты
           </button>
         </motion.div>
@@ -203,19 +244,10 @@ export default function Hero({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-start gap-3 md:gap-6 w-full"
+          className="flex flex-row flex-wrap items-start gap-3 md:gap-6"
         >
           {stats.map((stat, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl w-full sm:w-auto"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(10px)' }}
-            >
-              <div className="text-left">
-                <div className="text-lg md:text-xl font-bold leading-none" style={{ color: '#22C55E' }}>{stat.value}</div>
-                <div className="text-xs mt-0.5 whitespace-nowrap" style={{ color: 'rgba(230,237,243,0.5)' }}>{stat.label}</div>
-              </div>
-            </div>
+            <CounterStat key={i} value={stat.value} label={stat.label} />
           ))}
         </motion.div>
       </div>

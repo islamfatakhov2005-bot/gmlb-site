@@ -87,7 +87,7 @@ export default async function HomePage() {
         stat3Label={s?.stat3Label}
       />
       {/* Section wrapper — white light theme with dot grid animation */}
-      <div className="sections-wrapper" style={{ position: 'relative', zIndex: 2, borderRadius: '100px 100px 0 0', overflow: 'hidden', marginTop: '0', background: '#ffffff' }}>
+      <div className="sections-wrapper" style={{ position: 'relative', zIndex: 2, borderRadius: '85px 85px 85px 85px', overflow: 'hidden', marginTop: '0', background: '#ffffff' }}>
         <ProductsGrid products={mappedProducts} />
         <div className="section-divider" />
         <About

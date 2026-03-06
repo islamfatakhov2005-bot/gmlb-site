@@ -1,9 +1,10 @@
 'use client'
 
+import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import MatrixText from '@/components/ui/MatrixText'
-import { ArrowRight, Bot, Search, Brain, MessageSquare, RefreshCw, BarChart2, Layers, ShoppingCart, TrendingUp, Zap } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, Bot, Search, Brain, MessageSquare, RefreshCw, BarChart2, Layers, ShoppingCart, TrendingUp, Zap } from 'lucide-react'
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Bot, Search, Brain, MessageSquare, RefreshCw, BarChart2, Layers, ShoppingCart, TrendingUp, Zap,
@@ -17,18 +18,6 @@ interface Product {
 }
 interface ProductsGridProps { products?: Product[]; showHeader?: boolean }
 
-const EASE = [0.25, 0.46, 0.45, 0.94] as const
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.93 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: EASE } },
-}
-
-const gridVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-}
-
 function ProductCard({ product }: { product: Product }) {
   const IconComp = ICON_MAP[product.iconName || 'Bot'] || Bot
   const color = product.color || '#22C55E'
@@ -36,62 +25,67 @@ function ProductCard({ product }: { product: Product }) {
   const imageUrl = product.coverImage?.url
 
   return (
-    <motion.div variants={cardVariants}>
-      <Link href={`/products/${product.slug}`}>
-        <div className="glass-card h-full flex flex-col cursor-pointer overflow-hidden" style={{ minHeight: '340px' }}>
-          <div
-            className="relative overflow-hidden"
-            style={{
-              height: imageUrl ? '180px' : '120px',
-              background: imageUrl ? 'transparent' : `linear-gradient(135deg, ${color}15, ${color}05)`,
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
-            }}
-          >
-            {imageUrl ? (
-              <img src={imageUrl} alt={product.coverImage?.alt || product.title} className="w-full h-full object-cover" style={{ opacity: 0.85 }} />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: `${color}18`, border: `1px solid ${color}30` }}>
-                  <IconComp size={26} style={{ color }} />
-                </div>
+    <Link href={`/products/${product.slug}`}>
+      <div className="glass-card h-full flex flex-col cursor-pointer overflow-hidden" style={{ minHeight: '340px' }}>
+        <div
+          className="relative overflow-hidden"
+          style={{
+            height: imageUrl ? '180px' : '120px',
+            background: imageUrl ? 'transparent' : `linear-gradient(135deg, ${color}15, ${color}05)`,
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
+          }}
+        >
+          {imageUrl ? (
+            <img src={imageUrl} alt={product.coverImage?.alt || product.title} className="w-full h-full object-cover" style={{ opacity: 0.85 }} />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: `${color}18`, border: `1px solid ${color}30` }}>
+                <IconComp size={26} style={{ color }} />
               </div>
-            )}
-            {product.featured && (
-              <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold" style={{ background: 'linear-gradient(135deg, #22C55E, #10B981)', color: 'white' }}>
-                Популярный
-              </div>
-            )}
-          </div>
-          <div className="flex flex-col flex-1 p-5">
-            <div className="flex flex-wrap gap-1.5 mb-3">
-              {tags.map((tag) => (
-                <span key={tag} className="tag-badge" style={{ fontSize: '11px' }}>{tag}</span>
-              ))}
             </div>
-            <h3 className="text-base font-bold mb-2 leading-snug" style={{ color: '#0F172A' }}>{product.title}</h3>
-            <p className="text-sm leading-relaxed flex-1 mb-4" style={{ color: 'rgba(15,23,42,0.55)' }}>{product.shortDescription}</p>
-            <div className="flex items-center justify-between mt-auto">
-              <div>
-                {product.priceFrom ? (
-                  <>
-                    <span className="text-xs" style={{ color: 'rgba(15,23,42,0.4)' }}>от </span>
-                    <span className="text-sm font-bold" style={{ color: '#22C55E' }}>{product.priceFrom.toLocaleString('ru-RU')} ₽</span>
-                  </>
-                ) : null}
-              </div>
-              <div className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: '#22C55E' }}>
-                Подробнее
-                <ArrowRight size={13} />
-              </div>
+          )}
+          {product.featured && (
+            <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold" style={{ background: 'linear-gradient(135deg, #22C55E, #10B981)', color: 'white' }}>
+              Популярный
+            </div>
+          )}
+        </div>
+        <div className="flex flex-col flex-1 p-5">
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {tags.map((tag) => (
+              <span key={tag} className="tag-badge" style={{ fontSize: '11px' }}>{tag}</span>
+            ))}
+          </div>
+          <h3 className="text-base font-bold mb-2 leading-snug" style={{ color: '#0F172A' }}>{product.title}</h3>
+          <p className="text-sm leading-relaxed flex-1 mb-4" style={{ color: 'rgba(15,23,42,0.55)' }}>{product.shortDescription}</p>
+          <div className="flex items-center justify-between mt-auto">
+            <div>
+              {product.priceFrom ? (
+                <>
+                  <span className="text-xs" style={{ color: 'rgba(15,23,42,0.4)' }}>от </span>
+                  <span className="text-sm font-bold" style={{ color: '#22C55E' }}>{product.priceFrom.toLocaleString('ru-RU')} ₽</span>
+                </>
+              ) : null}
+            </div>
+            <div className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: '#22C55E' }}>
+              Подробнее
+              <ArrowRight size={13} />
             </div>
           </div>
         </div>
-      </Link>
-    </motion.div>
+      </div>
+    </Link>
   )
 }
 
 export default function ProductsGrid({ products = [], showHeader = true }: ProductsGridProps) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const scroll = (dir: 'left' | 'right') => {
+    if (!scrollRef.current) return
+    scrollRef.current.scrollBy({ left: dir === 'right' ? 340 : -340, behavior: 'smooth' })
+  }
+
   return (
     <section id="products" className="grid-bg py-16 md:py-24 overflow-hidden">
       <div className="container mx-auto">
@@ -121,15 +115,53 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
           </div>
         ) : (
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
-            variants={gridVariants}
-            initial="hidden"
-            whileInView="show"
+            className="relative"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.05 }}
+            transition={{ duration: 0.6 }}
           >
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {/* Arrow buttons */}
+            <button
+              onClick={() => scroll('left')}
+              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 items-center justify-center rounded-full transition-all duration-200"
+              style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)', color: '#22C55E' }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.22)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.12)')}
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 items-center justify-center rounded-full transition-all duration-200"
+              style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)', color: '#22C55E' }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.22)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.12)')}
+            >
+              <ChevronRight size={18} />
+            </button>
+
+            {/* Scrollable row */}
+            <div
+              ref={scrollRef}
+              className="flex gap-4 pb-3"
+              style={{
+                overflowX: 'auto',
+                scrollSnapType: 'x mandatory',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+              }}
+            >
+              <style>{`.products-scroll::-webkit-scrollbar { display: none; }`}</style>
+              {products.map((product) => (
+                <div
+                  key={product.id}
+                  style={{ minWidth: 'min(320px, 82vw)', scrollSnapAlign: 'start' }}
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
           </motion.div>
         )}
       </div>
