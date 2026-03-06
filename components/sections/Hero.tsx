@@ -158,6 +158,12 @@ export default function Hero({
   videoUrl = '/media/hero-video.mp4',
 }: HeroProps) {
   const heroRef = useRef<HTMLElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.playbackRate = 0.9
+  }, [])
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
@@ -186,12 +192,13 @@ export default function Hero({
       {/* Background video — black bg becomes transparent via mix-blend-mode: screen */}
       {videoUrl && (
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ zIndex: 1, mixBlendMode: 'screen', opacity: 0.55 }}
+          style={{ zIndex: 1, mixBlendMode: 'screen', opacity: 0.55, objectPosition: 'center 70%' }}
         >
           <source src={videoUrl} type="video/mp4" />
         </video>
