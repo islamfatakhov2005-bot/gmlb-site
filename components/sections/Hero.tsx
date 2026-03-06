@@ -143,6 +143,7 @@ interface HeroProps {
   stat2Label?: string
   stat3Value?: string
   stat3Label?: string
+  videoUrl?: string
 }
 
 export default function Hero({
@@ -154,6 +155,7 @@ export default function Hero({
   stat2Label = 'Лидов в месяц',
   stat3Value = '24/7',
   stat3Label = 'Автоматизация',
+  videoUrl = '/media/hero-video.mp4',
 }: HeroProps) {
   const heroRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
@@ -181,6 +183,20 @@ export default function Hero({
       style={{ scale: heroScale, opacity: heroOpacity, filter: filterStyle, background: '#081410' }}
     >
       <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
+      {/* Background video — black bg becomes transparent via mix-blend-mode: screen */}
+      {videoUrl && (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ zIndex: 1, mixBlendMode: 'screen', opacity: 0.55 }}
+        >
+          <source src={videoUrl} type="video/mp4" />
+        </video>
+      )}
+
       <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full animate-blob" style={{ background: 'rgba(34,197,94,0.12)', filter: 'blur(60px)', zIndex: 2 }} />
       <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full animate-blob animation-delay-2000" style={{ background: 'rgba(16,185,129,0.1)', filter: 'blur(60px)', zIndex: 2 }} />
       <div className="absolute bottom-1/4 left-1/3 w-56 h-56 rounded-full animate-blob animation-delay-4000" style={{ background: 'rgba(52,211,153,0.08)', filter: 'blur(50px)', zIndex: 2 }} />
