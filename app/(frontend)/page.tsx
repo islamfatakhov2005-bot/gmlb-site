@@ -88,7 +88,11 @@ export default async function HomePage() {
       />
       {/* Section wrapper — white light theme with dot grid animation */}
       <div className="sections-wrapper" style={{ position: 'relative', zIndex: 2, borderRadius: '85px 85px 85px 85px', overflow: 'hidden', marginTop: '0', background: '#ffffff' }}>
-        <ProductsGrid products={mappedProducts} />
+        <ProductsGrid
+          products={mappedProducts}
+          heading={s?.productsHeading}
+          subheading={s?.productsSubheading}
+        />
         <div className="section-divider" />
         <About
           heading={s?.aboutHeading}
@@ -99,13 +103,31 @@ export default async function HomePage() {
           statLabel={s?.aboutStatLabel}
         />
         <div className="section-divider" />
-        <Cases cases={mappedCases} />
+        <Cases
+          cases={mappedCases}
+          heading={s?.casesHeading}
+          subheading={s?.casesSubheading}
+        />
         <div className="section-divider" />
-        <Advantages advantages={mappedAdvantages} />
+        <Advantages
+          advantages={mappedAdvantages}
+          heading={s?.advantagesHeading}
+          subheading={s?.advantagesSubheading}
+        />
         <div className="section-divider" />
-        <Reviews reviews={mappedReviews} />
+        <Reviews
+          reviews={mappedReviews}
+          heading={s?.reviewsHeading}
+        />
         <div className="section-divider" />
-        <Contact telegram={s?.telegram} />
+        <Contact
+          telegram={s?.telegram}
+          heading={s?.contactHeading}
+          description={s?.contactDescription}
+          bullet1={s?.contactBullet1}
+          bullet2={s?.contactBullet2}
+          bullet3={s?.contactBullet3}
+        />
       </div>
     </>
   )

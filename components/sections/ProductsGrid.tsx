@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import MatrixText from '@/components/ui/MatrixText'
 import { ArrowRight, ChevronLeft, ChevronRight, Bot, Search, Brain, MessageSquare, RefreshCw, BarChart2, Layers, ShoppingCart, TrendingUp, Zap } from 'lucide-react'
+import { renderGreen } from '@/lib/renderGreen'
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Bot, Search, Brain, MessageSquare, RefreshCw, BarChart2, Layers, ShoppingCart, TrendingUp, Zap,
@@ -16,7 +17,7 @@ interface Product {
   coverImage?: { url?: string; alt?: string } | null
   featured?: boolean; iconName?: string; color?: string
 }
-interface ProductsGridProps { products?: Product[]; showHeader?: boolean }
+interface ProductsGridProps { products?: Product[]; showHeader?: boolean; heading?: string; subheading?: string }
 
 function ProductCard({ product }: { product: Product }) {
   const IconComp = ICON_MAP[product.iconName || 'Bot'] || Bot
@@ -78,7 +79,7 @@ function ProductCard({ product }: { product: Product }) {
   )
 }
 
-export default function ProductsGrid({ products = [], showHeader = true }: ProductsGridProps) {
+export default function ProductsGrid({ products = [], showHeader = true, heading = 'Решения для **вашего** бизнеса', subheading = 'Готовые инструменты автоматизации, которые экономят время и увеличивают прибыль' }: ProductsGridProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const scroll = (dir: 'left' | 'right') => {
@@ -102,11 +103,9 @@ export default function ProductsGrid({ products = [], showHeader = true }: Produ
                 Каталог продуктов
               </span>
               <h2 className="text-2xl md:text-3xl lg:text-5xl font-extrabold mb-3 md:mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
-                <MatrixText text="Решения для вашего бизнеса" />
+                <MatrixText text={heading.replace(/\*\*(.*?)\*\*/g, '$1')} />
               </h2>
-              <p className="text-sm md:text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>
-                Готовые инструменты автоматизации, которые экономят время и увеличивают прибыль
-              </p>
+              <p className="text-sm md:text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>{subheading}</p>
             </div>
             <div className="hidden md:flex items-center gap-1 flex-shrink-0 pb-1">
               <button

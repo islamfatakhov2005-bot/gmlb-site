@@ -4,14 +4,7 @@ import { motion, useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
-
-// Renders text with **word** highlighted in green
-function renderGreen(text: string) {
-  const parts = text.split(/\*\*(.*?)\*\*/g)
-  return parts.map((part, i) =>
-    i % 2 === 1 ? <span key={i} className="gradient-text">{part}</span> : part
-  )
-}
+import { renderGreen } from '@/lib/renderGreen'
 
 interface AboutProps {
   heading?: string

@@ -4,9 +4,10 @@ import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react'
 import MatrixText from '@/components/ui/MatrixText'
+import { renderGreen } from '@/lib/renderGreen'
 
 interface Review { id: string; name: string; role: string; text: string; rating?: number; initials?: string; color?: string }
-interface ReviewsProps { reviews?: Review[] }
+interface ReviewsProps { reviews?: Review[]; heading?: string }
 
 const DEFAULT_REVIEWS: Review[] = [
   { id: '1', name: 'Алексей М.', role: 'Реселлер Apple, Москва', text: 'Бот для мониторинга цен Apple — это просто находка. Раньше тратил полдня на обновление объявлений, теперь всё автоматически. Окупился за первый месяц.', rating: 5, initials: 'АМ', color: '#3B82F6' },
@@ -17,7 +18,7 @@ const DEFAULT_REVIEWS: Review[] = [
   { id: '6', name: 'Сергей Т.', role: 'Владелец интернет-магазина', text: 'Интеграция с Ozon и WB через API — это то, что нам было нужно. Теперь остатки синхронизируются автоматически, и мы больше не получаем заказы на отсутствующий товар.', rating: 5, initials: 'СТ', color: '#06B6D4' },
 ]
 
-export default function Reviews({ reviews = [] }: ReviewsProps) {
+export default function Reviews({ reviews = [], heading = 'Что говорят **наши клиенты**' }: ReviewsProps) {
   const displayReviews = reviews.length > 0 ? reviews : DEFAULT_REVIEWS
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -41,7 +42,7 @@ export default function Reviews({ reviews = [] }: ReviewsProps) {
               Отзывы клиентов
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
-              <MatrixText text="Что говорят наши клиенты" />
+              <MatrixText text={heading.replace(/\*\*(.*?)\*\*/g, '$1')} />
             </h2>
           </div>
           <div className="hidden md:flex items-center gap-1 flex-shrink-0 pb-5">

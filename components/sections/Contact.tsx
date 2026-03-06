@@ -5,12 +5,25 @@ import { useRef, useState } from 'react'
 import { Send, CheckCircle2, Phone, MessageSquare, User, FileText } from 'lucide-react'
 import { toast } from 'sonner'
 import MatrixText from '@/components/ui/MatrixText'
+import { renderGreen } from '@/lib/renderGreen'
 
 interface ContactProps {
   telegram?: string
+  heading?: string
+  description?: string
+  bullet1?: string
+  bullet2?: string
+  bullet3?: string
 }
 
-export default function Contact({ telegram = 'gmlb_automation' }: ContactProps) {
+export default function Contact({
+  telegram = 'gmlb_automation',
+  heading = 'Готовы **автоматизировать** ваш бизнес?',
+  description = 'Оставьте заявку и мы свяжемся с вами в течение 2 часов. Обсудим ваши задачи и предложим оптимальное решение.',
+  bullet1 = 'Ответим в Telegram за 15 минут',
+  bullet2 = 'Бесплатная консультация 30 минут',
+  bullet3 = 'Без обязательств и скрытых платежей',
+}: ContactProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
   const [form, setForm] = useState({ name: '', phone: '', telegram: '', message: '' })
@@ -61,17 +74,15 @@ export default function Contact({ telegram = 'gmlb_automation' }: ContactProps) 
               Связаться с нами
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-5 leading-tight" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
-              <MatrixText text="Готовы автоматизировать ваш бизнес?" />
+              <MatrixText text={heading.replace(/\*\*(.*?)\*\*/g, '$1')} />
             </h2>
-            <p className="text-base leading-relaxed mb-8" style={{ color: 'rgba(15,23,42,0.6)' }}>
-              Оставьте заявку и мы свяжемся с вами в течение 2 часов. Обсудим ваши задачи и предложим оптимальное решение.
-            </p>
+            <p className="text-base leading-relaxed mb-8" style={{ color: 'rgba(15,23,42,0.6)' }}>{description}</p>
 
             <div className="space-y-4 mb-8">
               {[
-                { icon: MessageSquare, text: 'Ответим в Telegram за 15 минут', color: '#22C55E' },
-                { icon: Phone, text: 'Бесплатная консультация 30 минут', color: '#10B981' },
-                { icon: CheckCircle2, text: 'Без обязательств и скрытых платежей', color: '#8B5CF6' },
+                { icon: MessageSquare, text: bullet1, color: '#22C55E' },
+                { icon: Phone, text: bullet2, color: '#10B981' },
+                { icon: CheckCircle2, text: bullet3, color: '#8B5CF6' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${item.color}15`, border: `1px solid ${item.color}25` }}>

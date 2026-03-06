@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { TrendingUp, Clock, DollarSign, Users, ChevronDown, ChevronUp } from 'lucide-react'
 import MatrixText from '@/components/ui/MatrixText'
+import { renderGreen } from '@/lib/renderGreen'
 
 const ICON_MAP: Record<string, React.ElementType> = { TrendingUp, Clock, DollarSign, Users }
 
@@ -12,7 +13,7 @@ interface Case {
   id: string; title: string; clientType?: string; description: string
   metrics?: Metric[]; tags?: Array<{ tag: string }>; color?: string
 }
-interface CasesProps { cases?: Case[] }
+interface CasesProps { cases?: Case[]; heading?: string; subheading?: string }
 
 const DEFAULT_CASES: Case[] = [
   {
@@ -59,7 +60,7 @@ const gridVariants = {
   show: { transition: { staggerChildren: 0.13 } },
 }
 
-export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
+export default function Cases({ cases = DEFAULT_CASES, heading = '**Реальные** результаты', subheading = 'Как наши продукты помогают бизнесу расти и экономить время' }: CasesProps) {
   const displayCases = cases.length > 0 ? cases : DEFAULT_CASES
   const [showAll, setShowAll] = useState(false)
   const INITIAL_COUNT = 3
@@ -80,11 +81,9 @@ export default function Cases({ cases = DEFAULT_CASES }: CasesProps) {
             Кейсы клиентов
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
-            <MatrixText text="Реальные результаты" />
+            <MatrixText text={heading.replace(/\*\*(.*?)\*\*/g, '$1')} />
           </h2>
-          <p className="text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>
-            Как наши продукты помогают бизнесу расти и экономить время
-          </p>
+          <p className="text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>{subheading}</p>
         </motion.div>
 
         <motion.div

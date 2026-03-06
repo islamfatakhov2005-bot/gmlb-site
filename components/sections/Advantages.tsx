@@ -4,13 +4,14 @@ import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Zap, Shield, HeadphonesIcon, Code2, TrendingUp, Clock, Brain, Bot, Star, Heart } from 'lucide-react'
 import MatrixText from '@/components/ui/MatrixText'
+import { renderGreen } from '@/lib/renderGreen'
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Zap, Shield, HeadphonesIcon, Code2, TrendingUp, Clock, Brain, Bot, Star, Heart,
 }
 
 interface Advantage { id: string; title: string; description: string; iconName?: string; color?: string }
-interface AdvantagesProps { advantages?: Advantage[] }
+interface AdvantagesProps { advantages?: Advantage[]; heading?: string; subheading?: string }
 
 const DEFAULT_ADVANTAGES: Advantage[] = [
   { id: '1', iconName: 'Zap', title: 'Быстрый запуск', description: 'Готовые решения запускаются за 3–7 дней. Никаких месяцев разработки с нуля.', color: '#F59E0B' },
@@ -21,7 +22,7 @@ const DEFAULT_ADVANTAGES: Advantage[] = [
   { id: '6', iconName: 'Clock', title: 'Экономия времени', description: 'Автоматизация рутинных задач освобождает до 80% рабочего времени ваших сотрудников.', color: '#EC4899' },
 ] as any
 
-export default function Advantages({ advantages = [] }: AdvantagesProps) {
+export default function Advantages({ advantages = [], heading = 'Наши **преимущества**', subheading = 'Мы не просто пишем код — мы решаем бизнес-задачи' }: AdvantagesProps) {
   const displayAdvantages = advantages.length > 0 ? advantages : DEFAULT_ADVANTAGES
   // Double items for seamless infinite loop
   const doubled = [...displayAdvantages, ...displayAdvantages]
@@ -82,11 +83,9 @@ export default function Advantages({ advantages = [] }: AdvantagesProps) {
             Почему GMLB
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4" style={{ color: '#0F172A', letterSpacing: '-0.02em' }}>
-            <MatrixText text="Наши преимущества" />
+            <MatrixText text={heading.replace(/\*\*(.*?)\*\*/g, '$1')} />
           </h2>
-          <p className="text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>
-            Мы не просто пишем код — мы решаем бизнес-задачи
-          </p>
+          <p className="text-base max-w-xl" style={{ color: 'rgba(15,23,42,0.55)' }}>{subheading}</p>
         </motion.div>
 
         {/* Auto-scroll carousel */}
