@@ -5,16 +5,28 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, Zap } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 
 const navLinks = [
   { label: 'Продукты', href: '/products' },
   { label: 'Кейсы', href: '/cases' },
   { label: 'Преимущества', href: '/advantages' },
   { label: 'Отзывы', href: '/reviews' },
+  { label: 'Блог', href: '/blog' },
   { label: 'Контакты', href: '/contact' },
 ]
 
-export default function Header() {
+interface HeaderProps {
+  logoUrl?: string
+  ctaText?: string
+  ctaUrl?: string
+}
+
+export default function Header({
+  logoUrl,
+  ctaText = 'Консультация',
+  ctaUrl = '/contact',
+}: HeaderProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = usePathname()
@@ -48,17 +60,29 @@ export default function Header() {
         {/* Logo */}
         <Link href="/">
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-            <div
-              style={{
-                width: 30, height: 30, borderRadius: '8px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: 'linear-gradient(135deg, #22C55E, #10B981)',
-                boxShadow: '0 0 14px rgba(34,197,94,0.4)',
-                flexShrink: 0,
-              }}
-            >
-              <Zap size={15} style={{ color: 'white' }} />
-            </div>
+            {/* Квадратная иконка: кастомная из CMS или дефолтная молния */}
+            {logoUrl ? (
+              <Image
+                src={logoUrl}
+                alt="logo icon"
+                width={30}
+                height={30}
+                style={{ width: 30, height: 30, borderRadius: '8px', objectFit: 'cover', flexShrink: 0 }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: 30, height: 30, borderRadius: '8px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: 'linear-gradient(135deg, #22C55E, #10B981)',
+                  boxShadow: '0 0 14px rgba(34,197,94,0.4)',
+                  flexShrink: 0,
+                }}
+              >
+                <Zap size={15} style={{ color: 'white' }} />
+              </div>
+            )}
+            {/* Текст логотипа — всегда виден */}
             <span style={{ color: '#E6EDF3', fontWeight: 700, fontSize: '17px', letterSpacing: '-0.01em' }}>
               GMLB<span style={{ color: '#22C55E' }}>.</span>
             </span>
@@ -100,9 +124,9 @@ export default function Header() {
 
         {/* CTA — desktop */}
         <div className="hidden md:flex items-center">
-          <Link href="/contact">
+          <Link href={ctaUrl}>
             <button className="btn-gradient" style={{ padding: '8px 18px', fontSize: '14px' }}>
-              Консультация
+              {ctaText}
             </button>
           </Link>
         </div>
@@ -166,13 +190,13 @@ export default function Header() {
                 </span>
               </Link>
             ))}
-            <Link href="/contact">
+            <Link href={ctaUrl}>
               <button
                 onClick={() => setMobileOpen(false)}
                 className="btn-gradient w-full mt-2"
                 style={{ fontSize: '15px' }}
               >
-                Получить консультацию
+                Получить {ctaText.toLowerCase()}
               </button>
             </Link>
           </motion.div>

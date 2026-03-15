@@ -29,6 +29,11 @@ interface Product {
   faq?: Array<{ q: string; a: string }>
 }
 
+interface ProductDetailProps {
+  product: Product
+  telegram?: string
+}
+
 const TABS = ['Обзор', 'Боли', 'Решение', 'Как работает', 'Тарифы', 'FAQ'] as const
 
 function FAQItem({ q, a }: { q: string; a: string }) {
@@ -44,7 +49,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   )
 }
 
-export default function ProductDetail({ product }: { product: Product }) {
+export default function ProductDetail({ product, telegram = 'gmlb_automation' }: ProductDetailProps) {
   const [activeTab, setActiveTab] = useState<typeof TABS[number]>('Обзор')
   const [form, setForm] = useState({ name: '', phone: '', telegram: '', message: '' })
   const [loading, setLoading] = useState(false)
@@ -67,7 +72,7 @@ export default function ProductDetail({ product }: { product: Product }) {
       const res = await fetch('/api/submit-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: form.name, phone: form.phone, telegram: form.telegram, message: form.message, source: `/products/${product.slug}` }),
+        body: JSON.stringify({ name: form.name, phone: form.phone, telegram: form.telegram, message: form.message, productId: product.id, source: `/products/${product.slug}` }),
       })
       if (res.ok) { setSubmitted(true); toast.success('Заявка отправлена!') }
       else { const d = await res.json(); toast.error(d.error || 'Ошибка. Попробуйте ещё раз.') }
@@ -111,7 +116,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                 <button onClick={() => document.querySelector('#lead-form')?.scrollIntoView({ behavior: 'smooth' })} className="btn-gradient flex items-center gap-2">
                   Оставить заявку <Send size={15} />
                 </button>
-                <a href="https://t.me/gmlb_automation" target="_blank" rel="noopener noreferrer" className="btn-outline-blue flex items-center gap-2">
+                <a href={`https://t.me/${telegram}`} target="_blank" rel="noopener noreferrer" className="btn-outline-blue flex items-center gap-2">
                   <Send size={15} /> Написать в Telegram
                 </a>
               </div>

@@ -1,13 +1,30 @@
 const TELEGRAM_API = 'https://api.telegram.org/bot'
 
+// Экранируем HTML-символы, чтобы пользователи не могли внедрить теги в Telegram-сообщение
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
 interface SendMessageOptions {
   text: string
   parseMode?: 'HTML' | 'Markdown'
+  // Переопределение токена и chatId (приоритет — CMS, fallback — .env)
+  tokenOverride?: string
+  chatIdOverride?: string
 }
 
-export async function sendTelegramMessage({ text, parseMode = 'HTML' }: SendMessageOptions) {
-  const token = process.env.TELEGRAM_BOT_TOKEN
-  const chatId = process.env.TELEGRAM_CHAT_ID
+export async function sendTelegramMessage({
+  text,
+  parseMode = 'HTML',
+  tokenOverride,
+  chatIdOverride,
+}: SendMessageOptions) {
+  const token  = tokenOverride  || process.env.TELEGRAM_BOT_TOKEN
+  const chatId = chatIdOverride || process.env.TELEGRAM_CHAT_ID
 
   if (!token || !chatId) {
     console.warn('[Telegram] BOT_TOKEN или CHAT_ID не указаны, уведомление пропущено')
@@ -45,10 +62,10 @@ export function formatLeadMessage(data: {
   return [
     '🔔 <b>Новый лид</b>',
     '',
-    `<b>Продукт:</b> ${data.product || 'Главная'}`,
-    `<b>Имя:</b> ${data.name}`,
-    `<b>Телефон:</b> ${data.phone}`,
-    `<b>Telegram:</b> ${data.telegram || 'не указан'}`,
-    `<b>Сообщение:</b> ${data.message || '—'}`,
+    `<b>Продукт:</b> ${escapeHtml(data.product || 'Главная')}`,
+    `<b>Имя:</b> ${escapeHtml(data.name)}`,
+    `<b>Телефон:</b> ${escapeHtml(data.phone)}`,
+    `<b>Telegram:</b> ${data.telegram ? escapeHtml(data.telegram) : 'не указан'}`,
+    `<b>Сообщение:</b> ${data.message ? escapeHtml(data.message) : '—'}`,
   ].join('\n')
 }

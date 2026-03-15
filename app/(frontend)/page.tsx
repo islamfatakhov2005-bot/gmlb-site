@@ -87,6 +87,7 @@ export default async function HomePage() {
         stat2Label={s?.stat2Label}
         stat3Value={s?.stat3Value}
         stat3Label={s?.stat3Label}
+        videoUrl={s?.heroVideoUrl}
       />
       {/* Section wrapper — white light theme with dot grid animation */}
       <div className="sections-wrapper" style={{ position: 'relative', zIndex: 2, borderRadius: '85px 85px 85px 85px', overflow: 'hidden', marginTop: '0', background: '#ffffff' }}>
@@ -103,6 +104,7 @@ export default async function HomePage() {
           imageUrl={s?.aboutImage?.url}
           statValue={s?.aboutStatValue}
           statLabel={s?.aboutStatLabel}
+          ctaText={s?.aboutCtaText}
         />
         <div className="section-divider" />
         <Cases

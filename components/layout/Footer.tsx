@@ -3,15 +3,39 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Zap, Send, Mail, Phone } from 'lucide-react'
+
+interface FooterProduct {
+  label: string
+  href: string
+}
 
 interface FooterProps {
   telegram?: string
   email?: string
   phone?: string
+  description?: string
+  products?: FooterProduct[]
+  logoUrl?: string
 }
 
-export default function Footer({ telegram = 'gmlb_automation', email = 'info@gmlb.ru', phone = '+7 (XXX) XXX-XX-XX' }: FooterProps) {
+const DEFAULT_FOOTER_PRODUCTS: FooterProduct[] = [
+  { label: 'Telegram-бот для ресейла', href: '/products' },
+  { label: 'Парсер маркетплейсов', href: '/products' },
+  { label: 'RAG-ассистент', href: '/products' },
+  { label: 'Чат-бот для магазина', href: '/products' },
+  { label: 'Автоматизация заказов', href: '/products' },
+]
+
+export default function Footer({
+  telegram = 'gmlb_automation',
+  email = 'info@gmlb.ru',
+  phone = '+7 (XXX) XXX-XX-XX',
+  description = 'Автоматизация бизнеса для малого бизнеса и e-commerce. Telegram-боты, парсеры, RAG-решения и чат-боты для маркетплейсов.',
+  products = DEFAULT_FOOTER_PRODUCTS,
+  logoUrl,
+}: FooterProps) {
   const year = new Date().getFullYear()
   const footerRef = useRef<HTMLElement>(null)
 
@@ -44,18 +68,28 @@ export default function Footer({ telegram = 'gmlb_automation', email = 'info@gml
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #22C55E, #10B981)', boxShadow: '0 0 16px rgba(34,197,94,0.4)' }}
-              >
-                <Zap size={16} className="text-white" />
-              </div>
+              {logoUrl ? (
+                <Image
+                  src={logoUrl}
+                  alt="logo icon"
+                  width={32}
+                  height={32}
+                  style={{ width: 32, height: 32, borderRadius: '8px', objectFit: 'cover', flexShrink: 0 }}
+                />
+              ) : (
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg, #22C55E, #10B981)', boxShadow: '0 0 16px rgba(34,197,94,0.4)' }}
+                >
+                  <Zap size={16} className="text-white" />
+                </div>
+              )}
               <span className="text-lg font-bold" style={{ color: '#E6EDF3' }}>
                 GMLB<span style={{ color: '#22C55E' }}>.</span>
               </span>
             </div>
             <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: 'rgba(230,237,243,0.5)' }}>
-              Автоматизация бизнеса для малого бизнеса и e-commerce. Telegram-боты, парсеры, RAG-решения и чат-боты для маркетплейсов.
+              {description}
             </p>
             <a
               href={`https://t.me/${telegram}`}
@@ -74,16 +108,16 @@ export default function Footer({ telegram = 'gmlb_automation', email = 'info@gml
           <div>
             <h4 className="text-sm font-semibold mb-4" style={{ color: '#E6EDF3' }}>Продукты</h4>
             <ul className="space-y-2.5">
-              {['Telegram-бот для ресейла', 'Парсер маркетплейсов', 'RAG-ассистент', 'Чат-бот для магазина', 'Автоматизация заказов'].map((item) => (
-                <li key={item}>
+              {products.map((item) => (
+                <li key={item.label}>
                   <Link
-                    href="/products"
+                    href={item.href}
                     className="text-sm transition-colors duration-200"
                     style={{ color: 'rgba(230,237,243,0.5)' }}
                     onMouseEnter={(e) => { (e.target as HTMLElement).style.color = '#22C55E' }}
                     onMouseLeave={(e) => { (e.target as HTMLElement).style.color = 'rgba(230,237,243,0.5)' }}
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -109,11 +143,25 @@ export default function Footer({ telegram = 'gmlb_automation', email = 'info@gml
               </li>
               <li className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(230,237,243,0.5)' }}>
                 <Mail size={14} style={{ color: '#22C55E', flexShrink: 0 }} />
-                <span>{email}</span>
+                <a
+                  href={`mailto:${email}`}
+                  style={{ color: 'rgba(230,237,243,0.5)' }}
+                  onMouseEnter={(e) => { (e.target as HTMLElement).style.color = '#22C55E' }}
+                  onMouseLeave={(e) => { (e.target as HTMLElement).style.color = 'rgba(230,237,243,0.5)' }}
+                >
+                  {email}
+                </a>
               </li>
               <li className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(230,237,243,0.5)' }}>
                 <Phone size={14} style={{ color: '#22C55E', flexShrink: 0 }} />
-                <span>{phone}</span>
+                <a
+                  href={`tel:${phone.replace(/[\s\-\(\)]/g, '')}`}
+                  style={{ color: 'rgba(230,237,243,0.5)' }}
+                  onMouseEnter={(e) => { (e.target as HTMLElement).style.color = '#22C55E' }}
+                  onMouseLeave={(e) => { (e.target as HTMLElement).style.color = 'rgba(230,237,243,0.5)' }}
+                >
+                  {phone}
+                </a>
               </li>
             </ul>
           </div>

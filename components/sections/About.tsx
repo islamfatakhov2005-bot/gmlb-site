@@ -13,6 +13,7 @@ interface AboutProps {
   imageUrl?: string
   statValue?: string
   statLabel?: string
+  ctaText?: string
 }
 
 const DEFAULT_POINTS = [
@@ -29,6 +30,7 @@ export default function About({
   imageUrl,
   statValue = '50+',
   statLabel = 'продуктов к концу года',
+  ctaText = 'Обсудить проект',
 }: AboutProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
@@ -85,7 +87,7 @@ export default function About({
             </ul>
 
             <button onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })} className="btn-gradient">
-              Обсудить проект
+              {ctaText}
             </button>
           </motion.div>
 

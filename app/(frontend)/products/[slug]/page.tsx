@@ -34,9 +34,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const payload = await getPayloadClient()
-  const { docs } = await payload.find({ collection: 'products', where: { slug: { equals: slug } }, limit: 1 })
+  const [{ docs }, settingsResult] = await Promise.all([
+    payload.find({ collection: 'products', where: { slug: { equals: slug } }, limit: 1 }),
+    payload.findGlobal({ slug: 'site-settings' }).catch(() => null),
+  ])
   const product = docs[0] as any
   if (!product) notFound()
+
+  const settings = settingsResult as any
+  const telegram: string = settings?.telegram || 'gmlb_automation'
 
   const mapped = {
     id: product.id,
@@ -63,7 +69,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="page-light min-h-screen pt-16" style={{ background: '#ffffff', borderRadius: '0 0 85px 85px', overflow: 'hidden' }}>
-      <ProductDetail product={mapped} />
+      <ProductDetail product={mapped} telegram={telegram} />
     </div>
   )
 }
