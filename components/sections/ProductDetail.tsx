@@ -106,10 +106,14 @@ export default function ProductDetail({ product, telegram = 'gmlb_automation' }:
               <p className="text-base leading-relaxed mb-6" style={{ color: 'rgba(15,23,42,0.6)' }}>{product.shortDescription}</p>
               {product.priceFrom && (
                 <div className="flex items-center gap-4 mb-6">
-                  <div>
+                  <button
+                    onClick={() => document.querySelector('#lead-form')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="group text-left transition-opacity hover:opacity-80"
+                  >
                     <span className="text-xs" style={{ color: 'rgba(15,23,42,0.45)' }}>Стоимость от </span>
-                    <span className="text-2xl font-bold" style={{ color: '#22C55E' }}>{product.priceFrom.toLocaleString('ru-RU')} ₽</span>
-                  </div>
+                    <span className="text-2xl font-bold underline underline-offset-4 decoration-dashed" style={{ color: '#22C55E', textDecorationColor: 'rgba(34,197,94,0.4)' }}>{product.priceFrom.toLocaleString('ru-RU')} ₽</span>
+                    <span className="text-xs ml-2" style={{ color: 'rgba(34,197,94,0.6)' }}>→ оставить заявку</span>
+                  </button>
                 </div>
               )}
               <div className="flex flex-wrap gap-3">
