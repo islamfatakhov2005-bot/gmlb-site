@@ -107,12 +107,12 @@ export default function ProductDetail({ product, telegram = 'gmlb_automation' }:
               {product.priceFrom && (
                 <div className="flex items-center gap-4 mb-6">
                   <button
-                    onClick={() => document.querySelector('#lead-form')?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={() => { setActiveTab('Тарифы'); document.querySelector('#tabs-section')?.scrollIntoView({ behavior: 'smooth' }) }}
                     className="group text-left transition-opacity hover:opacity-80"
                   >
                     <span className="text-xs" style={{ color: 'rgba(15,23,42,0.45)' }}>Стоимость от </span>
                     <span className="text-2xl font-bold underline underline-offset-4 decoration-dashed" style={{ color: '#22C55E', textDecorationColor: 'rgba(34,197,94,0.4)' }}>{product.priceFrom.toLocaleString('ru-RU')} ₽</span>
-                    <span className="text-xs ml-2" style={{ color: 'rgba(34,197,94,0.6)' }}>→ оставить заявку</span>
+                    <span className="text-xs ml-2" style={{ color: 'rgba(34,197,94,0.6)' }}>→ тарифы</span>
                   </button>
                 </div>
               )}
@@ -140,7 +140,7 @@ export default function ProductDetail({ product, telegram = 'gmlb_automation' }:
       </section>
 
       {/* Tabs */}
-      <section className="grid-bg py-12">
+      <section id="tabs-section" className="grid-bg py-12">
         <div className="container mx-auto">
           <div className="flex gap-1 mb-8 overflow-x-auto pb-2" style={{ borderBottom: '1px solid rgba(34,197,94,0.12)' }}>
             {TABS.map(tab => (
