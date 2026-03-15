@@ -49,7 +49,7 @@ export default function Header({
           justifyContent: 'space-between',
           padding: '14px 28px',
           borderRadius: '20px',
-          background: scrolled || location !== '/' ? 'rgba(8,20,14,0.82)' : 'rgba(8,20,14,0.15)',
+          background: scrolled ? 'rgba(8,20,14,0.82)' : 'rgba(8,20,14,0.55)',
           backdropFilter: 'blur(32px)',
           WebkitBackdropFilter: 'blur(32px)',
           border: `1px solid ${scrolled ? 'rgba(34,197,94,0.35)' : 'rgba(34,197,94,0.2)'}`,
