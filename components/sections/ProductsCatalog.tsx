@@ -55,7 +55,7 @@ export default function ProductsCatalog({ products }: { products: Product[] }) {
           {/* Search + filters */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="max-w-2xl mx-auto mb-8">
             <div className="relative mb-6">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: 'rgba(230,237,243,0.3)' }} />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: 'rgba(15,23,42,0.35)' }} />
               <input
                 type="text"
                 placeholder="Поиск по названию или описанию..."
@@ -77,9 +77,9 @@ export default function ProductsCatalog({ products }: { products: Product[] }) {
                   onClick={() => setSelectedTag(null)}
                   className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
                   style={{
-                    background: selectedTag === null ? 'linear-gradient(135deg, #22C55E, #10B981)' : 'rgba(255,255,255,0.05)',
-                    color: selectedTag === null ? 'white' : 'rgba(230,237,243,0.6)',
-                    border: '1px solid rgba(255,255,255,0.08)',
+                    background: selectedTag === null ? 'linear-gradient(135deg, #22C55E, #10B981)' : 'rgba(15,23,42,0.06)',
+                    color: selectedTag === null ? 'white' : 'rgba(15,23,42,0.6)',
+                    border: `1px solid ${selectedTag === null ? 'transparent' : 'rgba(15,23,42,0.12)'}`,
                   }}
                 >
                   Все
@@ -90,9 +90,9 @@ export default function ProductsCatalog({ products }: { products: Product[] }) {
                     onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
                     className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
                     style={{
-                      background: selectedTag === tag ? 'linear-gradient(135deg, #22C55E, #10B981)' : 'rgba(255,255,255,0.05)',
-                      color: selectedTag === tag ? 'white' : 'rgba(230,237,243,0.6)',
-                      border: '1px solid rgba(255,255,255,0.08)',
+                      background: selectedTag === tag ? 'linear-gradient(135deg, #22C55E, #10B981)' : 'rgba(15,23,42,0.06)',
+                      color: selectedTag === tag ? 'white' : 'rgba(15,23,42,0.6)',
+                      border: `1px solid ${selectedTag === tag ? 'transparent' : 'rgba(15,23,42,0.12)'}`,
                     }}
                   >
                     {tag}
