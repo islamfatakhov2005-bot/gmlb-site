@@ -1,11 +1,22 @@
 import type { CollectionConfig } from 'payload'
 
-// Подготовлена для v1.1 — фронтенд-страницы блога будут добавлены позже
 export const Blog: CollectionConfig = {
   slug: 'blog',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'isPublished', 'publishedAt'],
+    description: 'Чтобы статья появилась на сайте: поставьте галочку «Опубликовано» и сохраните.',
+  },
+  hooks: {
+    beforeChange: [
+      ({ data }) => {
+        // Авто-проставляем дату публикации при первой публикации
+        if (data.isPublished && !data.publishedAt) {
+          data.publishedAt = new Date().toISOString()
+        }
+        return data
+      },
+    ],
   },
   fields: [
     {
