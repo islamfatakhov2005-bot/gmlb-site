@@ -77,60 +77,60 @@ export default async function HomePage() {
   return (
     <>
       <Hero
-        badgeText={s?.heroBadge}
-        heading={s?.heroHeading}
+        badgeText={s?.heroBadge || undefined}
+        heading={s?.heroHeading || undefined}
         cyclingWords={s?.heroCyclingWords?.length ? s.heroCyclingWords.map((w: any) => w.word) : undefined}
-        subheading={s?.heroSubheading}
-        stat1Value={s?.stat1Value}
-        stat1Label={s?.stat1Label}
-        stat2Value={s?.stat2Value}
-        stat2Label={s?.stat2Label}
-        stat3Value={s?.stat3Value}
-        stat3Label={s?.stat3Label}
-        videoUrl={s?.heroVideoUrl}
+        subheading={s?.heroSubheading || undefined}
+        stat1Value={s?.stat1Value || undefined}
+        stat1Label={s?.stat1Label || undefined}
+        stat2Value={s?.stat2Value || undefined}
+        stat2Label={s?.stat2Label || undefined}
+        stat3Value={s?.stat3Value || undefined}
+        stat3Label={s?.stat3Label || undefined}
+        videoUrl={s?.heroVideoUrl || '/media/hero-video.mp4'}
       />
       {/* Section wrapper — white light theme with dot grid animation */}
       <div className="sections-wrapper" style={{ position: 'relative', zIndex: 2, borderRadius: '85px 85px 85px 85px', overflow: 'hidden', marginTop: '0', background: '#ffffff' }}>
         <ProductsGrid
           products={mappedProducts}
-          heading={s?.productsHeading}
-          subheading={s?.productsSubheading}
+          heading={s?.productsHeading || undefined}
+          subheading={s?.productsSubheading || undefined}
         />
         <div className="section-divider" />
         <About
-          heading={s?.aboutHeading}
-          description={s?.aboutDescription}
+          heading={s?.aboutHeading || undefined}
+          description={s?.aboutDescription || undefined}
           points={s?.aboutPoints?.length ? s.aboutPoints : undefined}
-          imageUrl={s?.aboutImage?.url}
-          statValue={s?.aboutStatValue}
-          statLabel={s?.aboutStatLabel}
-          ctaText={s?.aboutCtaText}
+          imageUrl={s?.aboutImage?.url || undefined}
+          statValue={s?.aboutStatValue || undefined}
+          statLabel={s?.aboutStatLabel || undefined}
+          ctaText={s?.aboutCtaText || undefined}
         />
         <div className="section-divider" />
         <Cases
           cases={mappedCases}
-          heading={s?.casesHeading}
-          subheading={s?.casesSubheading}
+          heading={s?.casesHeading || undefined}
+          subheading={s?.casesSubheading || undefined}
         />
         <div className="section-divider" />
         <Advantages
           advantages={mappedAdvantages}
-          heading={s?.advantagesHeading}
-          subheading={s?.advantagesSubheading}
+          heading={s?.advantagesHeading || undefined}
+          subheading={s?.advantagesSubheading || undefined}
         />
         <div className="section-divider" />
         <Reviews
           reviews={mappedReviews}
-          heading={s?.reviewsHeading}
+          heading={s?.reviewsHeading || undefined}
         />
         <div className="section-divider" />
         <Contact
-          telegram={s?.telegram}
-          heading={s?.contactHeading}
-          description={s?.contactDescription}
-          bullet1={s?.contactBullet1}
-          bullet2={s?.contactBullet2}
-          bullet3={s?.contactBullet3}
+          telegram={s?.telegram || undefined}
+          heading={s?.contactHeading || undefined}
+          description={s?.contactDescription || undefined}
+          bullet1={s?.contactBullet1 || undefined}
+          bullet2={s?.contactBullet2 || undefined}
+          bullet3={s?.contactBullet3 || undefined}
         />
       </div>
     </>

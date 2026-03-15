@@ -3,11 +3,13 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import { ArrowRight } from 'lucide-react'
 
 interface Post {
   id: string
   slug: string
   title: string
+  excerpt?: string
   publishedAt?: string
   coverImage?: { url: string }
   tags?: Array<{ tag: string }>
@@ -58,27 +60,29 @@ export default function BlogGrid({ posts }: { posts: Post[] }) {
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.1 + i * 0.07 }}
+              className="group"
             >
-              <Link href={`/blog/${post.slug}`} className="group block h-full">
-                <article
-                  className="rounded-2xl overflow-hidden h-full transition-all duration-250"
-                  style={{
-                    border: '1px solid rgba(15,23,42,0.08)',
-                    background: '#fff',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.boxShadow = '0 8px 32px rgba(34,197,94,0.1)'
-                    el.style.borderColor = 'rgba(34,197,94,0.25)'
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)'
-                    el.style.borderColor = 'rgba(15,23,42,0.08)'
-                  }}
-                >
-                  {post.coverImage?.url && (
+              <article
+                className="rounded-2xl overflow-hidden flex flex-col h-full transition-all duration-250"
+                style={{
+                  border: '1px solid rgba(15,23,42,0.08)',
+                  background: '#fff',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.boxShadow = '0 8px 32px rgba(34,197,94,0.1)'
+                  el.style.borderColor = 'rgba(34,197,94,0.25)'
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)'
+                  el.style.borderColor = 'rgba(15,23,42,0.08)'
+                }}
+              >
+                {/* Cover image */}
+                {post.coverImage?.url && (
+                  <Link href={`/blog/${post.slug}`} className="block overflow-hidden">
                     <div className="relative h-48 overflow-hidden">
                       <Image
                         src={post.coverImage.url}
@@ -88,34 +92,67 @@ export default function BlogGrid({ posts }: { posts: Post[] }) {
                         className="group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
+                  </Link>
+                )}
+
+                {/* Body */}
+                <div className="p-6 flex flex-col flex-1">
+                  {/* Tags */}
+                  {post.tags && post.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {post.tags.slice(0, 3).map((t) => (
+                        <span
+                          key={t.tag}
+                          className="text-xs px-2 py-0.5 rounded-full"
+                          style={{ background: 'rgba(34,197,94,0.08)', color: '#16A34A' }}
+                        >
+                          {t.tag}
+                        </span>
+                      ))}
+                    </div>
                   )}
-                  <div className="p-6">
-                    {post.tags && post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mb-3">
-                        {post.tags.slice(0, 3).map((t) => (
-                          <span
-                            key={t.tag}
-                            className="text-xs px-2 py-0.5 rounded-full"
-                            style={{ background: 'rgba(34,197,94,0.08)', color: '#16A34A' }}
-                          >
-                            {t.tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    <h2 className="text-lg font-bold mb-3 leading-snug" style={{ color: '#0F172A' }}>
+
+                  {/* Title */}
+                  <Link href={`/blog/${post.slug}`}>
+                    <h2
+                      className="text-lg font-bold mb-3 leading-snug transition-colors duration-200"
+                      style={{ color: '#0F172A' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#16A34A' }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#0F172A' }}
+                    >
                       {post.title}
                     </h2>
-                    {post.publishedAt && (
+                  </Link>
+
+                  {/* Excerpt */}
+                  {post.excerpt && (
+                    <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: 'rgba(15,23,42,0.55)' }}>
+                      {post.excerpt.length > 120 ? post.excerpt.slice(0, 120) + '...' : post.excerpt}
+                    </p>
+                  )}
+
+                  {/* Footer: date + read more */}
+                  <div className="flex items-center justify-between mt-auto pt-4" style={{ borderTop: '1px solid rgba(15,23,42,0.06)' }}>
+                    {post.publishedAt ? (
                       <p className="text-xs" style={{ color: 'rgba(15,23,42,0.38)' }}>
                         {new Date(post.publishedAt).toLocaleDateString('ru-RU', {
                           day: 'numeric', month: 'long', year: 'numeric',
                         })}
                       </p>
-                    )}
+                    ) : <span />}
+
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="inline-flex items-center gap-1 text-xs font-semibold transition-colors duration-200"
+                      style={{ color: '#22C55E' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#16A34A' }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#22C55E' }}
+                    >
+                      Читать далее <ArrowRight size={13} />
+                    </Link>
                   </div>
-                </article>
-              </Link>
+                </div>
+              </article>
             </motion.div>
           ))}
         </div>

@@ -34,6 +34,15 @@ export const Blog: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
+      name: 'excerpt',
+      type: 'textarea',
+      label: 'Краткое описание (превью)',
+      admin: {
+        description: 'Показывается в карточке на странице блога. 1–2 предложения. Если пусто — отображается первый абзац статьи.',
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'content',
       type: 'richText',
       required: true,
