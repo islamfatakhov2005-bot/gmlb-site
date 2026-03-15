@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Почему клиенты выбирают GMLB для автоматизации бизнеса.',
 }
 
-export const revalidate = 300
+export const revalidate = 30
 
 export default async function AdvantagesPage() {
   let advantages: any[] = []

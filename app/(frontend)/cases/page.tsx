@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Реальные результаты наших клиентов. Как автоматизация помогает бизнесу расти.',
 }
 
-export const revalidate = 300
+export const revalidate = 30
 
 export default async function CasesPage() {
   let cases: any[] = []

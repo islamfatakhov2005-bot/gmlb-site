@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Что говорят наши клиенты о продуктах GMLB.',
 }
 
-export const revalidate = 300
+export const revalidate = 30
 
 export default async function ReviewsPage() {
   let reviews: any[] = []

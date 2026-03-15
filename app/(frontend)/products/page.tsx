@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Готовые решения для автоматизации бизнеса: Telegram-боты, парсеры, RAG-ассистенты и чат-боты.',
 }
 
-export const revalidate = 300
+export const revalidate = 30
 
 export default async function ProductsPage() {
   let products: any[] = []

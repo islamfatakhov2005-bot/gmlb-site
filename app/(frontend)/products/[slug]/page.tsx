@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { getPayloadClient } from '@/lib/payload'
 import ProductDetail from '@/components/sections/ProductDetail'
 
-export const revalidate = 60
+export const revalidate = 30
 
 export async function generateStaticParams() {
   try {
