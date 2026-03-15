@@ -23,7 +23,7 @@ export const Products: CollectionConfig = {
       label: 'Краткое описание',
       admin: { description: 'Для карточки на главной' },
     },
-    { name: 'coverImage', type: 'upload', relationTo: 'media', label: 'Обложка' },
+    { name: 'coverImage', type: 'upload', relationTo: 'media', label: 'Обложка', admin: { description: 'Обложка карточки продукта. Рекомендуется: 800×500 px, JPG/PNG/WebP. Если не загружена — отображается иконка.' } },
     {
       name: 'tags',
       type: 'array',

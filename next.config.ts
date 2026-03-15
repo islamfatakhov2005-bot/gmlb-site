@@ -22,10 +22,11 @@ const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
-      // Только явно разрешённые домены для изображений
       { protocol: 'https', hostname: 'd2xsxph8kpxj0f.cloudfront.net' },
-      // Локальные медиафайлы Payload CMS (localhost для разработки)
       { protocol: 'http', hostname: 'localhost' },
+      // Продакшн домен — медиафайлы Payload CMS
+      { protocol: 'https', hostname: 'gmlb.ru' },
+      { protocol: 'http', hostname: '194.156.119.167' },
     ],
   },
   async headers() {

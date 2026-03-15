@@ -53,6 +53,7 @@ export const Blog: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       label: 'Обложка',
+      admin: { description: 'Обложка статьи. Рекомендуется: 1200×630 px, JPG/PNG/WebP.' },
     },
     {
       name: 'seoTitle',
