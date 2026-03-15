@@ -147,7 +147,10 @@ export default function BlogPostClient({ title, publishedAt, tags, coverImageUrl
       )}
 
       {/* Content */}
-      <div className="prose-custom">
+      <div
+        className="prose-custom"
+        style={{ wordBreak: 'break-word', overflowWrap: 'break-word', minWidth: 0 }}
+      >
         {content?.root ? serializeNode(content.root, 0) : null}
       </div>
     </motion.div>
